@@ -11,7 +11,6 @@ namespace LAYERS_OF_THE_ATMOSPHERE
     {
 
         //global parameters
-        bool isActive = false;
         bool isActiveTool = false;
         private bool _isFullScreen;
         double altitudeKm = 0;
