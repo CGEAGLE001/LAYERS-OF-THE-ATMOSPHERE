@@ -73,9 +73,49 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _100 {
+            get {
+                object obj = ResourceManager.GetObject("100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _101 {
+            get {
+                object obj = ResourceManager.GetObject("101", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _10S {
+            get {
+                object obj = ResourceManager.GetObject("10S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _11 {
             get {
                 object obj = ResourceManager.GetObject("11", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _11S {
+            get {
+                object obj = ResourceManager.GetObject("11S", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +133,39 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _12S {
+            get {
+                object obj = ResourceManager.GetObject("12S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _13 {
             get {
                 object obj = ResourceManager.GetObject("13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _13aS {
+            get {
+                object obj = ResourceManager.GetObject("13aS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _13bS {
+            get {
+                object obj = ResourceManager.GetObject("13bS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,6 +193,16 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _14S {
+            get {
+                object obj = ResourceManager.GetObject("14S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _15 {
             get {
                 object obj = ResourceManager.GetObject("15", resourceCulture);
@@ -143,9 +223,29 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _15aS {
+            get {
+                object obj = ResourceManager.GetObject("15aS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _15b {
             get {
                 object obj = ResourceManager.GetObject("15b", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _15bS {
+            get {
+                object obj = ResourceManager.GetObject("15bS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +273,49 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _16S {
+            get {
+                object obj = ResourceManager.GetObject("16S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _17 {
             get {
                 object obj = ResourceManager.GetObject("17", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _17aS {
+            get {
+                object obj = ResourceManager.GetObject("17aS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _17bS {
+            get {
+                object obj = ResourceManager.GetObject("17bS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _17cS {
+            get {
+                object obj = ResourceManager.GetObject("17cS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -196,6 +336,16 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         internal static System.Drawing.Bitmap _18D {
             get {
                 object obj = ResourceManager.GetObject("18D", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _18S {
+            get {
+                object obj = ResourceManager.GetObject("18S", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -343,6 +493,16 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _2S {
+            get {
+                object obj = ResourceManager.GetObject("2S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _30 {
             get {
                 object obj = ResourceManager.GetObject("30", resourceCulture);
@@ -436,6 +596,16 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         internal static System.Drawing.Bitmap _39 {
             get {
                 object obj = ResourceManager.GetObject("39", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _3S {
+            get {
+                object obj = ResourceManager.GetObject("3S", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -543,6 +713,16 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _4S {
+            get {
+                object obj = ResourceManager.GetObject("4S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _50 {
             get {
                 object obj = ResourceManager.GetObject("50", resourceCulture);
@@ -636,6 +816,16 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         internal static System.Drawing.Bitmap _59 {
             get {
                 object obj = ResourceManager.GetObject("59", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _5S {
+            get {
+                object obj = ResourceManager.GetObject("5S", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -743,9 +933,39 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _70 {
+        internal static System.Drawing.Bitmap _6aS {
             get {
-                object obj = ResourceManager.GetObject("70", resourceCulture);
+                object obj = ResourceManager.GetObject("6aS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _6bS {
+            get {
+                object obj = ResourceManager.GetObject("6bS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _70a {
+            get {
+                object obj = ResourceManager.GetObject("70a", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _70b {
+            get {
+                object obj = ResourceManager.GetObject("70b", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -843,6 +1063,16 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _7S {
+            get {
+                object obj = ResourceManager.GetObject("7S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _80 {
             get {
                 object obj = ResourceManager.GetObject("80", resourceCulture);
@@ -856,6 +1086,26 @@ namespace LAYERS_OF_THE_ATMOSPHERE.Properties {
         internal static System.Drawing.Bitmap _81 {
             get {
                 object obj = ResourceManager.GetObject("81", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _8S {
+            get {
+                object obj = ResourceManager.GetObject("8S", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _9S {
+            get {
+                object obj = ResourceManager.GetObject("9S", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

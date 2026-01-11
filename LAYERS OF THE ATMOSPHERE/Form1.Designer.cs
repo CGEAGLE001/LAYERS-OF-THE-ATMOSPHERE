@@ -1,6 +1,6 @@
 ﻿namespace LAYERS_OF_THE_ATMOSPHERE
 {
-    partial class Scimulation
+    partial class ScimulationLOTA
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Scimulation));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScimulationLOTA));
             AtmosphereImage = new PictureBox();
             CumulonimbusBtn = new PictureBox();
             CumulusBtn = new PictureBox();
@@ -95,16 +95,16 @@
             GasAnaHe = new Label();
             GasAnaN = new Label();
             GasAnaH = new Label();
-            MagicBalloonSimBox = new PictureBox();
-            HeightScroll = new HScrollBar();
-            MagicBalloonTextboxHeight = new TextBox();
-            MagicBalloonTextboxStretch = new TextBox();
+            SimBoxParams = new PictureBox();
+            SimScroll1 = new HScrollBar();
+            SimParam1 = new TextBox();
+            SimParam2 = new TextBox();
             MagicBalloonPresetbox = new ComboBox();
-            StretchinessScroll = new HScrollBar();
-            MagicBalloonTextboxSize = new TextBox();
-            MagicBalloonTextboxInner = new TextBox();
-            SizeScroll = new HScrollBar();
-            InnerScroll = new HScrollBar();
+            SimScroll2 = new HScrollBar();
+            SimParam3 = new TextBox();
+            SimParam4 = new TextBox();
+            SimScroll3 = new HScrollBar();
+            SimScroll4 = new HScrollBar();
             SimBtn = new PictureBox();
             SimBox = new PictureBox();
             MagicBalloonBtn = new PictureBox();
@@ -112,6 +112,31 @@
             SimExitBtn = new PictureBox();
             SimImage = new PictureBox();
             SimPlayBtn = new PictureBox();
+            SimMapBox = new PictureBox();
+            SimCalUniversal = new PictureBox();
+            SimMapArrow = new PictureBox();
+            SimPascal = new Label();
+            SimThickness = new Label();
+            SimPlot = new ScottPlot.WinForms.FormsPlot();
+            SimPressure = new Label();
+            SimSumBalloon = new Label();
+            SimTimer2 = new PictureBox();
+            SimTimer3 = new PictureBox();
+            SimTimer1 = new PictureBox();
+            SimTimerGo = new PictureBox();
+            SimObjectImageA = new PictureBox();
+            SimObjectImageB = new PictureBox();
+            SpecialSimExitBtn = new PictureBox();
+            SIM_POS = new Label();
+            label1 = new Label();
+            SimResult = new PictureBox();
+            SimInfoBtn = new PictureBox();
+            SimBalloonInfo = new PictureBox();
+            SimBalloonParam = new Button();
+            FinalHeight = new Label();
+            MagicBalloonInfo = new PictureBox();
+            FloatingTableInfo = new PictureBox();
+            FloatingTablePresetBox = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)AtmosphereImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CumulonimbusBtn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CumulusBtn).BeginInit();
@@ -158,7 +183,7 @@
             ((System.ComponentModel.ISupportInitialize)GasAnaUsable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AnemoUsable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AltitudeInfo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MagicBalloonSimBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimBoxParams).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SimBtn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SimBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MagicBalloonBtn).BeginInit();
@@ -166,24 +191,40 @@
             ((System.ComponentModel.ISupportInitialize)SimExitBtn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SimImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SimPlayBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimMapBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimCalUniversal).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimMapArrow).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimer2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimer3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimer1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimerGo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimObjectImageA).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimObjectImageB).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SpecialSimExitBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimResult).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimInfoBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimBalloonInfo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MagicBalloonInfo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)FloatingTableInfo).BeginInit();
             SuspendLayout();
             // 
             // AtmosphereImage
             // 
             AtmosphereImage.Image = Properties.Resources._10;
-            AtmosphereImage.Location = new Point(-10, -3154);
+            AtmosphereImage.Location = new Point(0, -3154);
             AtmosphereImage.Margin = new Padding(4, 2, 4, 2);
             AtmosphereImage.Name = "AtmosphereImage";
             AtmosphereImage.Size = new Size(1280, 3840);
             AtmosphereImage.TabIndex = 0;
             AtmosphereImage.TabStop = false;
+            AtmosphereImage.Click += AtmosphereImage_Click;
             AtmosphereImage.MouseMove += AtmosphereImage_MouseMove;
             // 
             // CumulonimbusBtn
             // 
             CumulonimbusBtn.BackColor = Color.Transparent;
             CumulonimbusBtn.Image = (Image)resources.GetObject("CumulonimbusBtn.Image");
-            CumulonimbusBtn.Location = new Point(1027, 3592);
+            CumulonimbusBtn.Location = new Point(1027, 3609);
             CumulonimbusBtn.Margin = new Padding(4, 2, 4, 2);
             CumulonimbusBtn.Name = "CumulonimbusBtn";
             CumulonimbusBtn.Size = new Size(215, 234);
@@ -197,7 +238,7 @@
             // 
             CumulusBtn.BackColor = Color.Transparent;
             CumulusBtn.Image = (Image)resources.GetObject("CumulusBtn.Image");
-            CumulusBtn.Location = new Point(797, 3776);
+            CumulusBtn.Location = new Point(797, 3785);
             CumulusBtn.Margin = new Padding(4, 2, 4, 2);
             CumulusBtn.Name = "CumulusBtn";
             CumulusBtn.Size = new Size(89, 55);
@@ -211,7 +252,7 @@
             // 
             StratusBtn.BackColor = Color.Transparent;
             StratusBtn.Image = (Image)resources.GetObject("StratusBtn.Image");
-            StratusBtn.Location = new Point(546, 3781);
+            StratusBtn.Location = new Point(546, 3791);
             StratusBtn.Margin = new Padding(4, 2, 4, 2);
             StratusBtn.Name = "StratusBtn";
             StratusBtn.Size = new Size(107, 50);
@@ -281,7 +322,7 @@
             // 
             AuroraBtn.BackColor = Color.Transparent;
             AuroraBtn.Image = (Image)resources.GetObject("AuroraBtn.Image");
-            AuroraBtn.Location = new Point(420, 1161);
+            AuroraBtn.Location = new Point(420, 1501);
             AuroraBtn.Margin = new Padding(4, 2, 4, 2);
             AuroraBtn.Name = "AuroraBtn";
             AuroraBtn.Size = new Size(849, 609);
@@ -489,7 +530,7 @@
             // 
             AuroraInfo.BackColor = Color.Transparent;
             AuroraInfo.Image = (Image)resources.GetObject("AuroraInfo.Image");
-            AuroraInfo.Location = new Point(906, 428);
+            AuroraInfo.Location = new Point(906, 1800);
             AuroraInfo.Margin = new Padding(4, 2, 4, 2);
             AuroraInfo.Name = "AuroraInfo";
             AuroraInfo.Size = new Size(250, 141);
@@ -791,10 +832,10 @@
             // GasAnaUsable
             // 
             GasAnaUsable.BackColor = Color.Transparent;
-            GasAnaUsable.Image = (Image)resources.GetObject("GasAnaUsable.Image");
-            GasAnaUsable.Location = new Point(12, 3500);
+            GasAnaUsable.Image = Properties.Resources._23;
+            GasAnaUsable.Location = new Point(4, 3400);
             GasAnaUsable.Name = "GasAnaUsable";
-            GasAnaUsable.Size = new Size(144, 370);
+            GasAnaUsable.Size = new Size(198, 509);
             GasAnaUsable.TabIndex = 60;
             GasAnaUsable.TabStop = false;
             // 
@@ -823,12 +864,13 @@
             AltitudeInfoText.BackColor = Color.Transparent;
             AltitudeInfoText.Font = new Font("Bebas Neue", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             AltitudeInfoText.ForeColor = Color.Red;
-            AltitudeInfoText.Location = new Point(66, 10);
+            AltitudeInfoText.Location = new Point(66, 22);
             AltitudeInfoText.Name = "AltitudeInfoText";
             AltitudeInfoText.Size = new Size(109, 35);
             AltitudeInfoText.TabIndex = 63;
             AltitudeInfoText.Text = "ERRMODEm";
             AltitudeInfoText.TextAlign = ContentAlignment.MiddleCenter;
+            AltitudeInfoText.TextChanged += AltitudeInfoText_TextChanged;
             // 
             // ThermoInfoText
             // 
@@ -845,11 +887,11 @@
             // BaroInfoText
             // 
             BaroInfoText.AutoSize = true;
-            BaroInfoText.Font = new Font("IBM Plex Mono", 17.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BaroInfoText.Font = new Font("IBM Plex Mono SemiBold", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BaroInfoText.ForeColor = Color.White;
-            BaroInfoText.Location = new Point(40, 59);
+            BaroInfoText.Location = new Point(40, 62);
             BaroInfoText.Name = "BaroInfoText";
-            BaroInfoText.Size = new Size(70, 32);
+            BaroInfoText.Size = new Size(57, 30);
             BaroInfoText.TabIndex = 65;
             BaroInfoText.Text = "0 mb";
             // 
@@ -868,12 +910,12 @@
             // AnemoInfoText
             // 
             AnemoInfoText.AutoSize = true;
-            AnemoInfoText.BackColor = Color.PaleTurquoise;
-            AnemoInfoText.Font = new Font("IBM Plex Mono", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            AnemoInfoText.BackColor = Color.Transparent;
+            AnemoInfoText.Font = new Font("IBM Plex Mono Medium", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             AnemoInfoText.ForeColor = Color.Black;
-            AnemoInfoText.Location = new Point(37, 281);
+            AnemoInfoText.Location = new Point(37, 283);
             AnemoInfoText.Name = "AnemoInfoText";
-            AnemoInfoText.Size = new Size(96, 27);
+            AnemoInfoText.Size = new Size(94, 24);
             AnemoInfoText.TabIndex = 69;
             AnemoInfoText.Text = "No Data";
             AnemoInfoText.TextAlign = ContentAlignment.TopCenter;
@@ -881,18 +923,20 @@
             // GasAnaN2
             // 
             GasAnaN2.AutoSize = true;
+            GasAnaN2.Font = new Font("IBM Plex Mono", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GasAnaN2.ForeColor = Color.White;
-            GasAnaN2.Location = new Point(37, 130);
+            GasAnaN2.Location = new Point(43, 218);
             GasAnaN2.Name = "GasAnaN2";
-            GasAnaN2.Size = new Size(49, 15);
+            GasAnaN2.Size = new Size(76, 24);
             GasAnaN2.TabIndex = 70;
             GasAnaN2.Text = "label3";
             // 
             // GasAnaO2
             // 
             GasAnaO2.AutoSize = true;
+            GasAnaO2.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GasAnaO2.ForeColor = Color.White;
-            GasAnaO2.Location = new Point(37, 146);
+            GasAnaO2.Location = new Point(43, 313);
             GasAnaO2.Name = "GasAnaO2";
             GasAnaO2.Size = new Size(49, 15);
             GasAnaO2.TabIndex = 71;
@@ -903,20 +947,22 @@
             // GasAnaO
             // 
             GasAnaO.AutoSize = true;
+            GasAnaO.Font = new Font("IBM Plex Mono", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GasAnaO.ForeColor = Color.White;
-            GasAnaO.Location = new Point(38, 163);
+            GasAnaO.Location = new Point(43, 268);
             GasAnaO.Name = "GasAnaO";
-            GasAnaO.Size = new Size(49, 15);
+            GasAnaO.Size = new Size(76, 24);
             GasAnaO.TabIndex = 72;
             GasAnaO.Text = "label3";
             // 
             // GasAnaAr
             // 
             GasAnaAr.AutoSize = true;
+            GasAnaAr.Font = new Font("IBM Plex Mono", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GasAnaAr.ForeColor = Color.White;
-            GasAnaAr.Location = new Point(42, 182);
+            GasAnaAr.Location = new Point(43, 293);
             GasAnaAr.Name = "GasAnaAr";
-            GasAnaAr.Size = new Size(49, 15);
+            GasAnaAr.Size = new Size(63, 19);
             GasAnaAr.TabIndex = 73;
             GasAnaAr.Text = "label3";
             GasAnaAr.Click += GasAnaAr_Click;
@@ -924,75 +970,82 @@
             // GasAnaHe
             // 
             GasAnaHe.AutoSize = true;
+            GasAnaHe.Font = new Font("IBM Plex Mono", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GasAnaHe.ForeColor = Color.White;
-            GasAnaHe.Location = new Point(43, 200);
+            GasAnaHe.Location = new Point(43, 243);
             GasAnaHe.Name = "GasAnaHe";
-            GasAnaHe.Size = new Size(49, 15);
+            GasAnaHe.Size = new Size(76, 24);
             GasAnaHe.TabIndex = 74;
             GasAnaHe.Text = "label4";
             // 
             // GasAnaN
             // 
             GasAnaN.AutoSize = true;
+            GasAnaN.Font = new Font("IBM Plex Mono", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GasAnaN.ForeColor = Color.White;
-            GasAnaN.Location = new Point(48, 219);
+            GasAnaN.Location = new Point(43, 167);
             GasAnaN.Name = "GasAnaN";
-            GasAnaN.Size = new Size(49, 15);
+            GasAnaN.Size = new Size(76, 24);
             GasAnaN.TabIndex = 75;
             GasAnaN.Text = "label5";
             // 
             // GasAnaH
             // 
             GasAnaH.AutoSize = true;
+            GasAnaH.Font = new Font("IBM Plex Mono", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             GasAnaH.ForeColor = Color.White;
-            GasAnaH.Location = new Point(49, 237);
+            GasAnaH.Location = new Point(43, 193);
             GasAnaH.Name = "GasAnaH";
-            GasAnaH.Size = new Size(49, 15);
+            GasAnaH.Size = new Size(76, 24);
             GasAnaH.TabIndex = 76;
             GasAnaH.Text = "label5";
             // 
-            // MagicBalloonSimBox
+            // SimBoxParams
             // 
-            MagicBalloonSimBox.Image = (Image)resources.GetObject("MagicBalloonSimBox.Image");
-            MagicBalloonSimBox.Location = new Point(395, 158);
-            MagicBalloonSimBox.Margin = new Padding(4, 2, 4, 2);
-            MagicBalloonSimBox.Name = "MagicBalloonSimBox";
-            MagicBalloonSimBox.Size = new Size(500, 350);
-            MagicBalloonSimBox.TabIndex = 77;
-            MagicBalloonSimBox.TabStop = false;
+            SimBoxParams.Image = Properties.Resources._70a;
+            SimBoxParams.Location = new Point(395, 158);
+            SimBoxParams.Margin = new Padding(4, 2, 4, 2);
+            SimBoxParams.Name = "SimBoxParams";
+            SimBoxParams.Size = new Size(500, 350);
+            SimBoxParams.TabIndex = 77;
+            SimBoxParams.TabStop = false;
             // 
-            // HeightScroll
+            // SimScroll1
             // 
-            HeightScroll.LargeChange = 1;
-            HeightScroll.Location = new Point(443, 373);
-            HeightScroll.Name = "HeightScroll";
-            HeightScroll.Size = new Size(182, 20);
-            HeightScroll.TabIndex = 81;
-            HeightScroll.ValueChanged += HeightScroll_ValueChanged;
+            SimScroll1.LargeChange = 1;
+            SimScroll1.Location = new Point(440, 373);
+            SimScroll1.Minimum = 1;
+            SimScroll1.Name = "SimScroll1";
+            SimScroll1.Size = new Size(182, 20);
+            SimScroll1.TabIndex = 81;
+            SimScroll1.Value = 1;
+            SimScroll1.ValueChanged += ThickScroll_ValueChanged;
             // 
-            // MagicBalloonTextboxHeight
+            // SimParam1
             // 
-            MagicBalloonTextboxHeight.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            MagicBalloonTextboxHeight.Location = new Point(443, 346);
-            MagicBalloonTextboxHeight.MaxLength = 6;
-            MagicBalloonTextboxHeight.Name = "MagicBalloonTextboxHeight";
-            MagicBalloonTextboxHeight.PlaceholderText = "Altitude (m)";
-            MagicBalloonTextboxHeight.Size = new Size(182, 24);
-            MagicBalloonTextboxHeight.TabIndex = 82;
-            MagicBalloonTextboxHeight.TextAlign = HorizontalAlignment.Center;
-            MagicBalloonTextboxHeight.TextChanged += MagicBalloonTextboxHeight_TextChanged;
+            SimParam1.Font = new Font("IBM Plex Mono", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            SimParam1.Location = new Point(440, 346);
+            SimParam1.MaxLength = 10;
+            SimParam1.Name = "SimParam1";
+            SimParam1.PlaceholderText = "Wall Thickness (m)";
+            SimParam1.ShortcutsEnabled = false;
+            SimParam1.Size = new Size(182, 24);
+            SimParam1.TabIndex = 82;
+            SimParam1.TabStop = false;
+            SimParam1.TextAlign = HorizontalAlignment.Center;
+            SimParam1.TextChanged += MagicBalloonTextboxThick_TextChanged;
             // 
-            // MagicBalloonTextboxStretch
+            // SimParam2
             // 
-            MagicBalloonTextboxStretch.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            MagicBalloonTextboxStretch.Location = new Point(669, 346);
-            MagicBalloonTextboxStretch.MaxLength = 4;
-            MagicBalloonTextboxStretch.Name = "MagicBalloonTextboxStretch";
-            MagicBalloonTextboxStretch.PlaceholderText = "Tensile Strength";
-            MagicBalloonTextboxStretch.Size = new Size(182, 24);
-            MagicBalloonTextboxStretch.TabIndex = 84;
-            MagicBalloonTextboxStretch.TextAlign = HorizontalAlignment.Center;
-            MagicBalloonTextboxStretch.TextChanged += MagicBalloonTextboxStretch_TextChanged;
+            SimParam2.Font = new Font("IBM Plex Mono", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            SimParam2.Location = new Point(667, 346);
+            SimParam2.MaxLength = 3;
+            SimParam2.Name = "SimParam2";
+            SimParam2.PlaceholderText = "Tensile Strength (MPa)";
+            SimParam2.Size = new Size(182, 24);
+            SimParam2.TabIndex = 84;
+            SimParam2.TextAlign = HorizontalAlignment.Center;
+            SimParam2.TextChanged += MagicBalloonTextboxStretch_TextChanged;
             // 
             // MagicBalloonPresetbox
             // 
@@ -1004,58 +1057,64 @@
             MagicBalloonPresetbox.Name = "MagicBalloonPresetbox";
             MagicBalloonPresetbox.Size = new Size(145, 23);
             MagicBalloonPresetbox.TabIndex = 85;
-            MagicBalloonPresetbox.SelectedIndexChanged += MagicBalloonPresetbox_SelectedIndexChanged;
+            MagicBalloonPresetbox.SelectionChangeCommitted += MagicBalloonPresetbox_SelectionChangeCommitted;
             // 
-            // StretchinessScroll
+            // SimScroll2
             // 
-            StretchinessScroll.LargeChange = 1;
-            StretchinessScroll.Location = new Point(669, 373);
-            StretchinessScroll.Name = "StretchinessScroll";
-            StretchinessScroll.Size = new Size(182, 20);
-            StretchinessScroll.TabIndex = 86;
-            StretchinessScroll.Scroll += StretchinessScroll_Scroll;
+            SimScroll2.LargeChange = 1;
+            SimScroll2.Location = new Point(667, 373);
+            SimScroll2.Minimum = 1;
+            SimScroll2.Name = "SimScroll2";
+            SimScroll2.Size = new Size(182, 20);
+            SimScroll2.TabIndex = 86;
+            SimScroll2.Value = 1;
+            SimScroll2.Scroll += StretchinessScroll_Scroll;
             // 
-            // MagicBalloonTextboxSize
+            // SimParam3
             // 
-            MagicBalloonTextboxSize.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            MagicBalloonTextboxSize.Location = new Point(443, 431);
-            MagicBalloonTextboxSize.MaxLength = 3;
-            MagicBalloonTextboxSize.Name = "MagicBalloonTextboxSize";
-            MagicBalloonTextboxSize.PlaceholderText = "Diameter (m)";
-            MagicBalloonTextboxSize.Size = new Size(182, 24);
-            MagicBalloonTextboxSize.TabIndex = 89;
-            MagicBalloonTextboxSize.TextAlign = HorizontalAlignment.Center;
-            MagicBalloonTextboxSize.TextChanged += MagicBalloonTextboxSize_TextChanged;
+            SimParam3.Font = new Font("IBM Plex Mono", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            SimParam3.Location = new Point(441, 431);
+            SimParam3.MaxLength = 3;
+            SimParam3.Name = "SimParam3";
+            SimParam3.PlaceholderText = "Diameter (m)";
+            SimParam3.Size = new Size(182, 24);
+            SimParam3.TabIndex = 89;
+            SimParam3.TextAlign = HorizontalAlignment.Center;
+            SimParam3.TextChanged += MagicBalloonTextboxSize_TextChanged;
             // 
-            // MagicBalloonTextboxInner
+            // SimParam4
             // 
-            MagicBalloonTextboxInner.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            MagicBalloonTextboxInner.Location = new Point(669, 431);
-            MagicBalloonTextboxInner.MaxLength = 4;
-            MagicBalloonTextboxInner.Name = "MagicBalloonTextboxInner";
-            MagicBalloonTextboxInner.PlaceholderText = "Inner Pressure (Pa)";
-            MagicBalloonTextboxInner.Size = new Size(182, 24);
-            MagicBalloonTextboxInner.TabIndex = 91;
-            MagicBalloonTextboxInner.TextAlign = HorizontalAlignment.Center;
-            MagicBalloonTextboxInner.TextChanged += MagicBalloonTextboxInner_TextChanged;
+            SimParam4.Font = new Font("IBM Plex Mono", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            SimParam4.Location = new Point(667, 431);
+            SimParam4.MaxLength = 6;
+            SimParam4.Name = "SimParam4";
+            SimParam4.PlaceholderText = "Inner Pressure (Pa)";
+            SimParam4.Size = new Size(182, 24);
+            SimParam4.TabIndex = 91;
+            SimParam4.TextAlign = HorizontalAlignment.Center;
+            SimParam4.TextChanged += MagicBalloonTextboxInner_TextChanged;
             // 
-            // SizeScroll
+            // SimScroll3
             // 
-            SizeScroll.LargeChange = 1;
-            SizeScroll.Location = new Point(443, 458);
-            SizeScroll.Name = "SizeScroll";
-            SizeScroll.Size = new Size(182, 20);
-            SizeScroll.TabIndex = 92;
-            SizeScroll.Scroll += SizeScroll_Scroll;
+            SimScroll3.LargeChange = 1;
+            SimScroll3.Location = new Point(441, 458);
+            SimScroll3.Minimum = 1;
+            SimScroll3.Name = "SimScroll3";
+            SimScroll3.Size = new Size(182, 20);
+            SimScroll3.TabIndex = 92;
+            SimScroll3.Value = 1;
+            SimScroll3.Scroll += SizeScroll_Scroll;
             // 
-            // InnerScroll
+            // SimScroll4
             // 
-            InnerScroll.LargeChange = 1;
-            InnerScroll.Location = new Point(669, 458);
-            InnerScroll.Name = "InnerScroll";
-            InnerScroll.Size = new Size(182, 20);
-            InnerScroll.TabIndex = 93;
-            InnerScroll.Scroll += InnerScroll_Scroll;
+            SimScroll4.LargeChange = 1;
+            SimScroll4.Location = new Point(667, 458);
+            SimScroll4.Minimum = 1;
+            SimScroll4.Name = "SimScroll4";
+            SimScroll4.Size = new Size(182, 20);
+            SimScroll4.TabIndex = 93;
+            SimScroll4.Value = 1;
+            SimScroll4.Scroll += InnerScroll_Scroll;
             // 
             // SimBtn
             // 
@@ -1101,13 +1160,16 @@
             // 
             FloatingTableBtn.BackColor = Color.Transparent;
             FloatingTableBtn.Cursor = Cursors.Hand;
-            FloatingTableBtn.Image = (Image)resources.GetObject("FloatingTableBtn.Image");
+            FloatingTableBtn.Image = Properties.Resources._78;
             FloatingTableBtn.Location = new Point(151, 42);
             FloatingTableBtn.Margin = new Padding(4, 2, 4, 2);
             FloatingTableBtn.Name = "FloatingTableBtn";
             FloatingTableBtn.Size = new Size(90, 90);
             FloatingTableBtn.TabIndex = 97;
             FloatingTableBtn.TabStop = false;
+            FloatingTableBtn.Click += FloatingTableBtn_Click;
+            FloatingTableBtn.MouseLeave += FloatingTableBtn_MouseLeave;
+            FloatingTableBtn.MouseHover += FloatingTableBtn_MouseHover;
             // 
             // SimExitBtn
             // 
@@ -1125,13 +1187,14 @@
             // 
             // SimImage
             // 
-            SimImage.Image = (Image)resources.GetObject("SimImage.Image");
+            SimImage.Image = Properties.Resources._1S;
             SimImage.Location = new Point(1400, -9682);
             SimImage.Margin = new Padding(4, 2, 4, 2);
             SimImage.Name = "SimImage";
             SimImage.Size = new Size(1280, 10368);
             SimImage.TabIndex = 99;
             SimImage.TabStop = false;
+            SimImage.LocationChanged += SimImage_LocationChanged;
             // 
             // SimPlayBtn
             // 
@@ -1144,13 +1207,315 @@
             SimPlayBtn.TabStop = false;
             SimPlayBtn.Click += SimPlayBtn_Click;
             // 
-            // Scimulation
+            // SimMapBox
+            // 
+            SimMapBox.Image = Properties.Resources._2S;
+            SimMapBox.Location = new Point(1163, 22);
+            SimMapBox.Name = "SimMapBox";
+            SimMapBox.Size = new Size(85, 640);
+            SimMapBox.TabIndex = 101;
+            SimMapBox.TabStop = false;
+            // 
+            // SimCalUniversal
+            // 
+            SimCalUniversal.BackColor = Color.IndianRed;
+            SimCalUniversal.Image = Properties.Resources._4S;
+            SimCalUniversal.Location = new Point(21, 22);
+            SimCalUniversal.Name = "SimCalUniversal";
+            SimCalUniversal.Size = new Size(200, 640);
+            SimCalUniversal.TabIndex = 102;
+            SimCalUniversal.TabStop = false;
+            // 
+            // SimMapArrow
+            // 
+            SimMapArrow.BackColor = Color.Transparent;
+            SimMapArrow.Image = Properties.Resources._5S;
+            SimMapArrow.Location = new Point(1, 620);
+            SimMapArrow.Name = "SimMapArrow";
+            SimMapArrow.Size = new Size(20, 24);
+            SimMapArrow.TabIndex = 103;
+            SimMapArrow.TabStop = false;
+            SimMapArrow.LocationChanged += SimMapArrow_LocationChanged;
+            // 
+            // SimPascal
+            // 
+            SimPascal.AutoSize = true;
+            SimPascal.BackColor = Color.Transparent;
+            SimPascal.Font = new Font("IBM Plex Mono", 6.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            SimPascal.ForeColor = Color.White;
+            SimPascal.Location = new Point(27, 399);
+            SimPascal.Name = "SimPascal";
+            SimPascal.Size = new Size(55, 11);
+            SimPascal.TabIndex = 104;
+            SimPascal.Text = "100,000 Pa";
+            // 
+            // SimThickness
+            // 
+            SimThickness.AutoSize = true;
+            SimThickness.BackColor = Color.Transparent;
+            SimThickness.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            SimThickness.ForeColor = Color.White;
+            SimThickness.Location = new Point(80, 437);
+            SimThickness.Name = "SimThickness";
+            SimThickness.Size = new Size(14, 15);
+            SimThickness.TabIndex = 106;
+            SimThickness.Text = "t";
+            SimThickness.Click += SimThickness_Click;
+            // 
+            // SimPlot
+            // 
+            SimPlot.BackColor = Color.Transparent;
+            SimPlot.DisplayScale = 1F;
+            SimPlot.ForeColor = Color.White;
+            SimPlot.Location = new Point(36, 181);
+            SimPlot.Name = "SimPlot";
+            SimPlot.Size = new Size(352, 148);
+            SimPlot.TabIndex = 107;
+            // 
+            // SimPressure
+            // 
+            SimPressure.AutoSize = true;
+            SimPressure.BackColor = Color.Transparent;
+            SimPressure.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            SimPressure.ForeColor = Color.White;
+            SimPressure.Location = new Point(69, 488);
+            SimPressure.Name = "SimPressure";
+            SimPressure.Size = new Size(35, 15);
+            SimPressure.TabIndex = 108;
+            SimPressure.Text = "0 Pa";
+            SimPressure.Click += SimPressure_Click;
+            // 
+            // SimSumBalloon
+            // 
+            SimSumBalloon.AutoSize = true;
+            SimSumBalloon.BackColor = Color.Transparent;
+            SimSumBalloon.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            SimSumBalloon.ForeColor = Color.White;
+            SimSumBalloon.Location = new Point(80, 568);
+            SimSumBalloon.Name = "SimSumBalloon";
+            SimSumBalloon.Size = new Size(35, 15);
+            SimSumBalloon.TabIndex = 109;
+            SimSumBalloon.Text = "0 Pa";
+            // 
+            // SimTimer2
+            // 
+            SimTimer2.BackColor = Color.Transparent;
+            SimTimer2.Image = Properties.Resources._8S;
+            SimTimer2.Location = new Point(726, 9830);
+            SimTimer2.Name = "SimTimer2";
+            SimTimer2.Size = new Size(150, 150);
+            SimTimer2.TabIndex = 110;
+            SimTimer2.TabStop = false;
+            // 
+            // SimTimer3
+            // 
+            SimTimer3.BackColor = Color.Transparent;
+            SimTimer3.Image = Properties.Resources._7S;
+            SimTimer3.Location = new Point(300, 9830);
+            SimTimer3.Name = "SimTimer3";
+            SimTimer3.Size = new Size(150, 150);
+            SimTimer3.TabIndex = 111;
+            SimTimer3.TabStop = false;
+            // 
+            // SimTimer1
+            // 
+            SimTimer1.BackColor = Color.Transparent;
+            SimTimer1.Image = Properties.Resources._9S;
+            SimTimer1.Location = new Point(575, 9830);
+            SimTimer1.Name = "SimTimer1";
+            SimTimer1.Size = new Size(150, 150);
+            SimTimer1.TabIndex = 112;
+            SimTimer1.TabStop = false;
+            // 
+            // SimTimerGo
+            // 
+            SimTimerGo.BackColor = Color.Transparent;
+            SimTimerGo.Image = Properties.Resources._10S;
+            SimTimerGo.Location = new Point(882, 9830);
+            SimTimerGo.Name = "SimTimerGo";
+            SimTimerGo.Size = new Size(150, 150);
+            SimTimerGo.TabIndex = 113;
+            SimTimerGo.TabStop = false;
+            // 
+            // SimObjectImageA
+            // 
+            SimObjectImageA.BackColor = Color.Transparent;
+            SimObjectImageA.Image = Properties.Resources._6aS;
+            SimObjectImageA.Location = new Point(592, 10190);
+            SimObjectImageA.Name = "SimObjectImageA";
+            SimObjectImageA.Size = new Size(110, 110);
+            SimObjectImageA.TabIndex = 114;
+            SimObjectImageA.TabStop = false;
+            // 
+            // SimObjectImageB
+            // 
+            SimObjectImageB.BackColor = Color.Transparent;
+            SimObjectImageB.Image = Properties.Resources._6bS;
+            SimObjectImageB.Location = new Point(708, 10190);
+            SimObjectImageB.Name = "SimObjectImageB";
+            SimObjectImageB.Size = new Size(110, 110);
+            SimObjectImageB.TabIndex = 115;
+            SimObjectImageB.TabStop = false;
+            // 
+            // SpecialSimExitBtn
+            // 
+            SpecialSimExitBtn.BackColor = Color.Transparent;
+            SpecialSimExitBtn.Image = Properties.Resources._11S;
+            SpecialSimExitBtn.Location = new Point(573, 642);
+            SpecialSimExitBtn.Margin = new Padding(4, 2, 4, 2);
+            SpecialSimExitBtn.Name = "SpecialSimExitBtn";
+            SpecialSimExitBtn.Size = new Size(150, 40);
+            SpecialSimExitBtn.TabIndex = 116;
+            SpecialSimExitBtn.TabStop = false;
+            SpecialSimExitBtn.Click += SpecialSimExitBtn_Click;
+            // 
+            // SIM_POS
+            // 
+            SIM_POS.AutoSize = true;
+            SIM_POS.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            SIM_POS.ForeColor = Color.Red;
+            SIM_POS.Location = new Point(592, 96);
+            SIM_POS.Name = "SIM_POS";
+            SIM_POS.Size = new Size(63, 15);
+            SIM_POS.TabIndex = 117;
+            SIM_POS.Text = "SIM_SPCL";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Red;
+            label1.Location = new Point(592, 117);
+            label1.Name = "label1";
+            label1.Size = new Size(56, 15);
+            label1.TabIndex = 118;
+            label1.Text = "SIM_PRS";
+            // 
+            // SimResult
+            // 
+            SimResult.Image = Properties.Resources._13aS;
+            SimResult.Location = new Point(900, 159);
+            SimResult.Margin = new Padding(4, 2, 4, 2);
+            SimResult.Name = "SimResult";
+            SimResult.Size = new Size(500, 350);
+            SimResult.TabIndex = 119;
+            SimResult.TabStop = false;
+            // 
+            // SimInfoBtn
+            // 
+            SimInfoBtn.Image = (Image)resources.GetObject("SimInfoBtn.Image");
+            SimInfoBtn.Location = new Point(902, 158);
+            SimInfoBtn.Name = "SimInfoBtn";
+            SimInfoBtn.Size = new Size(20, 20);
+            SimInfoBtn.TabIndex = 120;
+            SimInfoBtn.TabStop = false;
+            SimInfoBtn.Click += SimInfoBtn_Click;
+            // 
+            // SimBalloonInfo
+            // 
+            SimBalloonInfo.Image = Properties.Resources._12S;
+            SimBalloonInfo.Location = new Point(900, 159);
+            SimBalloonInfo.Margin = new Padding(4, 2, 4, 2);
+            SimBalloonInfo.Name = "SimBalloonInfo";
+            SimBalloonInfo.Size = new Size(500, 350);
+            SimBalloonInfo.TabIndex = 121;
+            SimBalloonInfo.TabStop = false;
+            SimBalloonInfo.Click += SimBalloonInfo_Click;
+            // 
+            // SimBalloonParam
+            // 
+            SimBalloonParam.BackColor = Color.Gold;
+            SimBalloonParam.FlatAppearance.BorderColor = Color.Black;
+            SimBalloonParam.FlatAppearance.BorderSize = 2;
+            SimBalloonParam.FlatStyle = FlatStyle.Flat;
+            SimBalloonParam.Font = new Font("IBM Plex Mono", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            SimBalloonParam.ForeColor = Color.Black;
+            SimBalloonParam.Location = new Point(167, 140);
+            SimBalloonParam.Name = "SimBalloonParam";
+            SimBalloonParam.Size = new Size(169, 24);
+            SimBalloonParam.TabIndex = 122;
+            SimBalloonParam.Text = "Apply Balloon Limit";
+            SimBalloonParam.UseVisualStyleBackColor = false;
+            SimBalloonParam.Click += SimBalloonParam_Click;
+            // 
+            // FinalHeight
+            // 
+            FinalHeight.AutoSize = true;
+            FinalHeight.BackColor = Color.Transparent;
+            FinalHeight.Font = new Font("IBM Plex Mono", 17.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FinalHeight.ForeColor = Color.White;
+            FinalHeight.Location = new Point(199, 109);
+            FinalHeight.Name = "FinalHeight";
+            FinalHeight.Size = new Size(56, 32);
+            FinalHeight.TabIndex = 123;
+            FinalHeight.Text = "N/A";
+            // 
+            // MagicBalloonInfo
+            // 
+            MagicBalloonInfo.BackColor = Color.Transparent;
+            MagicBalloonInfo.Image = Properties.Resources._100;
+            MagicBalloonInfo.Location = new Point(37, 281);
+            MagicBalloonInfo.Margin = new Padding(4, 2, 4, 2);
+            MagicBalloonInfo.Name = "MagicBalloonInfo";
+            MagicBalloonInfo.Size = new Size(350, 160);
+            MagicBalloonInfo.TabIndex = 124;
+            MagicBalloonInfo.TabStop = false;
+            // 
+            // FloatingTableInfo
+            // 
+            FloatingTableInfo.BackColor = Color.Transparent;
+            FloatingTableInfo.Image = Properties.Resources._101;
+            FloatingTableInfo.Location = new Point(37, 281);
+            FloatingTableInfo.Margin = new Padding(4, 2, 4, 2);
+            FloatingTableInfo.Name = "FloatingTableInfo";
+            FloatingTableInfo.Size = new Size(350, 160);
+            FloatingTableInfo.TabIndex = 125;
+            FloatingTableInfo.TabStop = false;
+            // 
+            // FloatingTablePresetBox
+            // 
+            FloatingTablePresetBox.BackColor = Color.White;
+            FloatingTablePresetBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            FloatingTablePresetBox.FormattingEnabled = true;
+            FloatingTablePresetBox.Items.AddRange(new object[] { "Water", "Mercury", "Custom" });
+            FloatingTablePresetBox.Location = new Point(575, 263);
+            FloatingTablePresetBox.Name = "FloatingTablePresetBox";
+            FloatingTablePresetBox.Size = new Size(145, 23);
+            FloatingTablePresetBox.TabIndex = 126;
+            FloatingTablePresetBox.SelectionChangeCommitted += FloatingTablePresetBox_SelectionChangeCommitted;
+            // 
+            // ScimulationLOTA
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
             CausesValidation = false;
             ClientSize = new Size(1264, 681);
+            Controls.Add(FloatingTablePresetBox);
+            Controls.Add(FloatingTableInfo);
+            Controls.Add(MagicBalloonInfo);
+            Controls.Add(FinalHeight);
+            Controls.Add(SimBalloonParam);
+            Controls.Add(SimBalloonInfo);
+            Controls.Add(SimInfoBtn);
+            Controls.Add(SimResult);
+            Controls.Add(label1);
+            Controls.Add(SIM_POS);
+            Controls.Add(SpecialSimExitBtn);
+            Controls.Add(SimObjectImageB);
+            Controls.Add(SimObjectImageA);
+            Controls.Add(SimTimerGo);
+            Controls.Add(SimTimer1);
+            Controls.Add(SimTimer3);
+            Controls.Add(SimTimer2);
+            Controls.Add(SimSumBalloon);
+            Controls.Add(SimPressure);
+            Controls.Add(SimPlot);
+            Controls.Add(SimThickness);
+            Controls.Add(SimPascal);
+            Controls.Add(SimMapArrow);
+            Controls.Add(SimCalUniversal);
+            Controls.Add(SimMapBox);
             Controls.Add(SimPlayBtn);
             Controls.Add(SimImage);
             Controls.Add(SimExitBtn);
@@ -1158,16 +1523,16 @@
             Controls.Add(MagicBalloonBtn);
             Controls.Add(SimBox);
             Controls.Add(SimBtn);
-            Controls.Add(InnerScroll);
-            Controls.Add(SizeScroll);
-            Controls.Add(MagicBalloonTextboxInner);
-            Controls.Add(MagicBalloonTextboxSize);
-            Controls.Add(StretchinessScroll);
+            Controls.Add(SimScroll4);
+            Controls.Add(SimScroll3);
+            Controls.Add(SimParam4);
+            Controls.Add(SimParam3);
+            Controls.Add(SimScroll2);
             Controls.Add(MagicBalloonPresetbox);
-            Controls.Add(MagicBalloonTextboxStretch);
-            Controls.Add(MagicBalloonTextboxHeight);
-            Controls.Add(HeightScroll);
-            Controls.Add(MagicBalloonSimBox);
+            Controls.Add(SimParam2);
+            Controls.Add(SimParam1);
+            Controls.Add(SimScroll1);
+            Controls.Add(SimBoxParams);
             Controls.Add(GasAnaH);
             Controls.Add(GasAnaN);
             Controls.Add(GasAnaHe);
@@ -1238,10 +1603,10 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 2, 4, 2);
-            Name = "Scimulation";
+            Name = "ScimulationLOTA";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SciMulation";
-            Load += Scimulation_Load;
+            Load += ScimulationLOTA_Load;
             ((System.ComponentModel.ISupportInitialize)AtmosphereImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)CumulonimbusBtn).EndInit();
             ((System.ComponentModel.ISupportInitialize)CumulusBtn).EndInit();
@@ -1288,7 +1653,7 @@
             ((System.ComponentModel.ISupportInitialize)GasAnaUsable).EndInit();
             ((System.ComponentModel.ISupportInitialize)AnemoUsable).EndInit();
             ((System.ComponentModel.ISupportInitialize)AltitudeInfo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MagicBalloonSimBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimBoxParams).EndInit();
             ((System.ComponentModel.ISupportInitialize)SimBtn).EndInit();
             ((System.ComponentModel.ISupportInitialize)SimBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)MagicBalloonBtn).EndInit();
@@ -1296,6 +1661,21 @@
             ((System.ComponentModel.ISupportInitialize)SimExitBtn).EndInit();
             ((System.ComponentModel.ISupportInitialize)SimImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)SimPlayBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimMapBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimCalUniversal).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimMapArrow).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimer2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimer3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimer1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimTimerGo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimObjectImageA).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimObjectImageB).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SpecialSimExitBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimResult).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimInfoBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimBalloonInfo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MagicBalloonInfo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)FloatingTableInfo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1368,16 +1748,16 @@
         private Label GasAnaHe;
         private Label GasAnaN;
         private Label GasAnaH;
-        private PictureBox MagicBalloonSimBox;
-        private HScrollBar HeightScroll;
-        private TextBox MagicBalloonTextboxHeight;
-        private TextBox MagicBalloonTextboxStretch;
+        private PictureBox SimBoxParams;
+        private HScrollBar SimScroll1;
+        private TextBox SimParam1;
+        private TextBox SimParam2;
         private ComboBox MagicBalloonPresetbox;
-        private HScrollBar StretchinessScroll;
-        private TextBox MagicBalloonTextboxSize;
-        private TextBox MagicBalloonTextboxInner;
-        private HScrollBar SizeScroll;
-        private HScrollBar InnerScroll;
+        private HScrollBar SimScroll2;
+        private TextBox SimParam3;
+        private TextBox SimParam4;
+        private HScrollBar SimScroll3;
+        private HScrollBar SimScroll4;
         private PictureBox SimBtn;
         private PictureBox SimBox;
         private PictureBox MagicBalloonBtn;
@@ -1385,5 +1765,30 @@
         private PictureBox SimExitBtn;
         private PictureBox SimImage;
         private PictureBox SimPlayBtn;
+        private PictureBox SimMapBox;
+        private PictureBox SimCalUniversal;
+        private PictureBox SimMapArrow;
+        private Label SimPascal;
+        private Label SimThickness;
+        private ScottPlot.WinForms.FormsPlot SimPlot;
+        private Label SimPressure;
+        private Label SimSumBalloon;
+        private PictureBox SimTimer2;
+        private PictureBox SimTimer3;
+        private PictureBox SimTimer1;
+        private PictureBox SimTimerGo;
+        private PictureBox SimObjectImageA;
+        private PictureBox SimObjectImageB;
+        private PictureBox SpecialSimExitBtn;
+        private Label SIM_POS;
+        private Label label1;
+        private PictureBox SimResult;
+        private PictureBox SimInfoBtn;
+        private PictureBox SimBalloonInfo;
+        private Button SimBalloonParam;
+        private Label FinalHeight;
+        private PictureBox MagicBalloonInfo;
+        private PictureBox FloatingTableInfo;
+        private ComboBox FloatingTablePresetBox;
     }
 }

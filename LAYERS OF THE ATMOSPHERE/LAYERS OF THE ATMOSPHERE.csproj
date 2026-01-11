@@ -12,6 +12,10 @@
   <ItemGroup>
     <PackageReference Include="App.Animations" Version="2.0.5" />
     <PackageReference Include="NAudio" Version="2.2.1" />
+<<<<<<< HEAD
+=======
+    <PackageReference Include="ScottPlot.WinForms" Version="5.1.57" />
+>>>>>>> updated
   </ItemGroup>
 
   <ItemGroup>
