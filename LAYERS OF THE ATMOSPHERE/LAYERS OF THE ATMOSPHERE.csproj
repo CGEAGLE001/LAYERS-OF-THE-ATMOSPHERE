@@ -10,6 +10,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="App.Animations" Version="2.0.5" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+<<<<<<< HEAD
+=======
+    <PackageReference Include="ScottPlot.WinForms" Version="5.1.57" />
+>>>>>>> updated
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Audios.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Audios.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -18,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Audios.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Audios.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
