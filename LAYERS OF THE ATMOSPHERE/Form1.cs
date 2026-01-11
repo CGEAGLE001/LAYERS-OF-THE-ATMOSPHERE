@@ -4,16 +4,38 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NAudio.Wave;
+using System.Collections.Generic;
+using App.Animations;
 
 namespace LAYERS_OF_THE_ATMOSPHERE
 {
     public partial class Scimulation : Form
     {
 
-        //global parameters
+        //first-order global parameters
+        bool isActive = false;
         bool isActiveTool = false;
+        bool isActiveSim = false;
+        bool isSimulating = false;
         private bool _isFullScreen;
+
+        //double-order global parameters
         double altitudeKm = 0;
+
+        //simulation params
+        Animator runningAnimation;
+        double height = 0;
+        double stretch = 0;
+        double size = 0;
+        double inner = 0;
+
+        //enums
+        public enum AudioType
+        {
+            Wav,
+            Mp3
+        }
 
         // gg
         protected override void OnShown(EventArgs e)
@@ -154,6 +176,138 @@ namespace LAYERS_OF_THE_ATMOSPHERE
             ThermoLine.Visible = true;
             ExosLine.Visible = true;
             ErrorBoxScreen.Visible = false;
+        }
+
+        // allows looping sound
+        public class LoopStream : WaveStream
+        {
+            private readonly WaveStream sourceStream;
+
+            public LoopStream(WaveStream sourceStream)
+            {
+                this.sourceStream = sourceStream;
+            }
+
+            public override WaveFormat WaveFormat => sourceStream.WaveFormat;
+
+            public override long Length => long.MaxValue;
+
+            public override long Position
+            {
+                get => sourceStream.Position;
+                set => sourceStream.Position = value;
+            }
+
+            public override int Read(byte[] buffer, int offset, int count)
+            {
+                int totalBytesRead = 0;
+
+                while (totalBytesRead < count)
+                {
+                    int bytesRead = sourceStream.Read(buffer, offset + totalBytesRead, count - totalBytesRead);
+                    if (bytesRead == 0)
+                    {
+                        sourceStream.Position = 0; // restart
+                    }
+                    else
+                    {
+                        totalBytesRead += bytesRead;
+                    }
+                }
+
+                return totalBytesRead;
+            }
+        }
+        
+        // function for playing sound
+        public static class SoundPlayer
+        {
+            private static readonly List<IWavePlayer> activePlayers = new();
+
+            public static void Play(Stream audioStream, AudioType type = AudioType.Wav)
+            {
+                Task.Run(() =>
+                {
+                    IWavePlayer output = new WaveOutEvent();
+                    WaveStream reader = type switch
+                    {
+                        AudioType.Mp3 => new Mp3FileReader(audioStream),
+                        _ => new WaveFileReader(audioStream), // default = WAV
+                    };
+
+                    output.Init(reader);
+                    output.Play();
+
+                    output.PlaybackStopped += (s, e) =>
+                    {
+                        output.Dispose();
+                        reader.Dispose();
+                    };
+                });
+            }
+
+            public static IWavePlayer PlayLoop(string filePath)
+            {
+                var outputDevice = new WaveOutEvent();
+                var audioFile = new AudioFileReader(filePath);
+                var loop = new LoopStream(audioFile);
+
+                outputDevice.Init(loop);
+                outputDevice.Play();
+
+                return outputDevice; // keep reference to stop later
+            }
+        }
+
+    public static class AnimationHelpers
+        {
+            // AnimationHelpers.AnimateMove(label1, 100, 110, 500, 510, 6000, 5, "Linear");
+            public static Animator AnimateMove(Control control, int startX, int startY, int endX, int endY, int durationMs, string easingName = "Linear")
+            {
+                // Convert string ? EasingType
+                if (!Enum.TryParse(easingName, true, out EasingType easing))
+                {
+                    easing = EasingType.Linear; // fallback
+                }
+
+                var startValues = new List<double> { startX, startY };
+                var endValues = new List<double> { endX, endY };
+
+                return new Animator()
+                    .AddPath(easing, startValues, endValues, durationMs)
+                    .SetFrameEvent(values =>
+                    {
+                        if (control.IsDisposed) return;
+
+                        control.Invoke(() =>
+                        {
+                            control.Left = (int)values[0];
+                            control.Top = (int)values[1];
+                        });
+                    })
+                    .Start();
+            }
+
+            // AnimationHelpers.AnimateCustomMove(label1, 100, 110, 500, 510, 6000, v => Math.Sin(v));
+            public static Animator AnimateCustomMove(Control control, int startX, int startY, int endX, int endY, int durationMs, Func<double, double> easingFunc)
+            {
+                var startValues = new List<double> { startX, startY };
+                var endValues = new List<double> { endX, endY };
+
+                return new Animator()
+                    .AddPath(easingFunc, startValues, endValues, durationMs)
+                    .SetFrameEvent(values =>
+                    {
+                        if (control.IsDisposed) return;
+
+                        control.Invoke(() =>
+                        {
+                            control.Left = (int)values[0];
+                            control.Top = (int)values[1];
+                        });
+                    })
+                    .Start();
+            }
         }
 
         // all of atmospheric data
@@ -1506,12 +1660,17 @@ namespace LAYERS_OF_THE_ATMOSPHERE
             ThermosInfo.Parent = AtmosphereImage;
             ExosInfo.Parent = AtmosphereImage;
             IonosInfo.Parent = AtmosphereImage;
+            SimPlayBtn.Parent = AtmosphereImage;
 
             // set parent to the tools background
             ThermoBtn.Parent = ToolsBkg;
             BaroBtn.Parent = ToolsBkg;
             GasAnaBtn.Parent = ToolsBkg;
             AnemoBtn.Parent = ToolsBkg;
+
+            // set parent to the sim background
+            MagicBalloonBtn.Parent = SimBox;
+            FloatingTableBtn.Parent = SimBox;
 
             //set parent to the altitude
             AltitudeInfoText.Parent = AltitudeInfo;
@@ -1562,6 +1721,20 @@ namespace LAYERS_OF_THE_ATMOSPHERE
             ThermosInfo.Visible = false;
             ExosInfo.Visible = false;
             IonosInfo.Visible = false;
+            MagicBalloonSimBox.Visible = false;
+            MagicBalloonPresetbox.Visible = false;
+            MagicBalloonTextboxHeight.Visible = false;
+            MagicBalloonTextboxInner.Visible = false;
+            MagicBalloonTextboxSize.Visible = false;
+            MagicBalloonTextboxStretch.Visible = false;
+            HeightScroll.Visible = false;
+            InnerScroll.Visible = false;
+            SizeScroll.Visible = false;
+            StretchinessScroll.Visible = false;
+            SimExitBtn.Visible = false;
+            SimBox.Visible = false;
+            SimPlayBtn.Visible = false;
+            WORLD_POS.Visible = false;
 
             // Setting z-level to proper levels
             EverestLine.BringToFront();
@@ -1589,12 +1762,18 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
             // allows the atmosphere to be moved
             MouseWheelMover.Enable(AtmosphereImage, ThermoUsableA, ThermoUsableB, BaroUsableA, BaroUsableB, GasAnaUsable, AnemoUsable, 3840, -3160);
+
+            // sets preset to default
+            MagicBalloonPresetbox.SelectedIndex = 0;
         }
 
         // ACTIONS
 
+        //toolsbtn
         private void ToolsBtn_Click(object sender, EventArgs e)
         {
+            SoundPlayer.Play(Properties.Audios.Click);
+
             if (!isActive)
             {
                 ToolsBkg.Visible = true;
@@ -1603,6 +1782,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaBtn.Visible = true;
                 AnemoBtn.Visible = true;
 
+                SimBtn.Enabled = false;
                 isActive = true;
             }
             else
@@ -1613,6 +1793,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaBtn.Visible = false;
                 AnemoBtn.Visible = false;
 
+                SimBtn.Enabled = true;
                 isActive = false;
             }
         }
@@ -1623,7 +1804,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
             Point preshiftLoc = ToolsBtn.Location;
             ToolsBtn.Location = new Point(preshiftLoc.X, preshiftLoc.Y + 6);
             ToolsBtn.Size = new Size(preshiftSize.Width, preshiftSize.Height - 6);
-            ToolsBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\29.png");
+            ToolsBtn.Image = Properties.Resources._29;
         }
 
         private void ToolsBtn_MouseUp(object sender, MouseEventArgs e)
@@ -1632,19 +1813,63 @@ namespace LAYERS_OF_THE_ATMOSPHERE
             Point preshiftLoc = ToolsBtn.Location;
             ToolsBtn.Location = new Point(preshiftLoc.X, preshiftLoc.Y - 6);
             ToolsBtn.Size = new Size(preshiftSize.Width, preshiftSize.Height + 6);
-            ToolsBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\26.png");
+            ToolsBtn.Image = Properties.Resources._26;
         }
+
+        //simbtn
+        private void SimBtn_Click(object sender, EventArgs e)
+        {
+            if (!isActive)
+            {
+                SoundPlayer.Play(Properties.Audios.Click);
+                SimBox.Visible = true;
+                MagicBalloonBtn.Visible = true;
+                FloatingTableBtn.Visible = true;
+                SimPlayBtn.Visible = true;
+                isActive = true;
+            }
+            else
+            {
+                SoundPlayer.Play(Properties.Audios.Click);
+                SimBox.Visible = false;
+                MagicBalloonSimBox.Visible = false;
+                FloatingTableBtn.Visible = false;
+                SimPlayBtn.Visible = false;
+                isActive = false;
+            }
+        }
+
+        private void SimBtn_MouseDown(object sender, MouseEventArgs e)
+        {
+            Size preshiftSize = SimBtn.Size;
+            Point preshiftLoc = SimBtn.Location;
+            SimBtn.Location = new Point(preshiftLoc.X, preshiftLoc.Y + 6);
+            SimBtn.Size = new Size(preshiftSize.Width, preshiftSize.Height - 6);
+            SimBtn.Image = Properties.Resources._69;
+        }
+
+        private void SimBtn_MouseUp(object sender, MouseEventArgs e)
+        {
+            Size preshiftSize = SimBtn.Size;
+            Point preshiftLoc = SimBtn.Location;
+            SimBtn.Location = new Point(preshiftLoc.X, preshiftLoc.Y - 6);
+            SimBtn.Size = new Size(preshiftSize.Width, preshiftSize.Height + 6);
+            SimBtn.Image = Properties.Resources._68;
+        }
+
+        //simplaybtn
+
 
         // cumulonimbusbtn
         private void CumulonimbusBtn_MouseHover(object sender, EventArgs e)
         {
-            CumulonimbusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\44.png");
+            CumulonimbusBtn.Image = Properties.Resources._44;
             CumulonimbusInfo.Visible = true;
         }
 
         private void CumulonimbusBtn_MouseLeave(object sender, EventArgs e)
         {
-            CumulonimbusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\43.png");
+            CumulonimbusBtn.Image = Properties.Resources._43;
             CumulonimbusInfo.Visible = false;
         }
 
@@ -1659,13 +1884,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         // aurorabtn
         private void AuroraBtn_MouseHover(object sender, EventArgs e)
         {
-            AuroraBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\58.png");
+            AuroraBtn.Image = Properties.Resources._58;
             AuroraInfo.Visible = true;
         }
 
         private void AuroraBtn_MouseLeave(object sender, EventArgs e)
         {
-            AuroraBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\57.png");
+            AuroraBtn.Image = Properties.Resources._57;
             AuroraInfo.Visible = false;
         }
 
@@ -1680,13 +1905,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         // meteorbtn
         private void MeteorBurnBtn_MouseHover(object sender, EventArgs e)
         {
-            MeteorBurnBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\56.png");
+            MeteorBurnBtn.Image = Properties.Resources._56;
             MeteorBurnInfo.Visible = true;
         }
 
         private void MeteorBurnBtn_MouseLeave(object sender, EventArgs e)
         {
-            MeteorBurnBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\55.png");
+            MeteorBurnBtn.Image = Properties.Resources._55;
             MeteorBurnInfo.Visible = false;
         }
 
@@ -1701,13 +1926,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         //stratus
         private void StratusBtn_MouseHover(object sender, EventArgs e)
         {
-            StratusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\49.png");
+            StratusBtn.Image = Properties.Resources._49;
             StratusInfo.Visible = true;
         }
 
         private void StratusBtn_MouseLeave(object sender, EventArgs e)
         {
-            StratusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\50.png");
+            StratusBtn.Image = Properties.Resources._50;
             StratusInfo.Visible = false;
         }
 
@@ -1722,13 +1947,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         // cumulusbtn
         private void CumulusBtn_MouseHover(object sender, EventArgs e)
         {
-            CumulusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\52.png");
+            CumulusBtn.Image = Properties.Resources._52;
             CumulusInfo.Visible = true;
         }
 
         private void CumulusBtn_MouseLeave(object sender, EventArgs e)
         {
-            CumulusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\51.png");
+            CumulusBtn.Image = Properties.Resources._51;
             CumulusInfo.Visible = false;
         }
 
@@ -1743,13 +1968,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         //altocumulusbtn
         private void AltocumulusBtn_MouseHover(object sender, EventArgs e)
         {
-            AltocumulusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\48.png");
+            AltocumulusBtn.Image = Properties.Resources._48;
             AltocumulusInfo.Visible = true;
         }
 
         private void AltocumulusBtn_MouseLeave(object sender, EventArgs e)
         {
-            AltocumulusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\47.png");
+            AltocumulusBtn.Image = Properties.Resources._47;
             AltocumulusInfo.Visible = false;
         }
 
@@ -1764,13 +1989,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         //cirrusbtn
         private void CirrusBtn_MouseHover(object sender, EventArgs e)
         {
-            CirrusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\46.png");
+            CirrusBtn.Image = Properties.Resources._46;
             CirrusInfo.Visible = true;
         }
 
         private void CirrusBtn_MouseLeave(object sender, EventArgs e)
         {
-            CirrusBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\45.png");
+            CirrusBtn.Image = Properties.Resources._45;
             CirrusInfo.Visible = false;
         }
 
@@ -1785,13 +2010,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         //weatherballoonbtn
         private void WeatherBalloonBtn_MouseHover(object sender, EventArgs e)
         {
-            WeatherBalloonBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\54.png");
+            WeatherBalloonBtn.Image = Properties.Resources._54;
             WeatherBalloonInfo.Visible = true;
         }
 
         private void WeatherBalloonBtn_MouseLeave(object sender, EventArgs e)
         {
-            WeatherBalloonBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\53.png");
+            WeatherBalloonBtn.Image = Properties.Resources._53;
             WeatherBalloonInfo.Visible = false;
         }
 
@@ -1806,18 +2031,20 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         // thermobtn
         private void ThermoBtn_MouseHover(object sender, EventArgs e)
         {
-            ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\14.png");
+            ThermoBtn.Image = Properties.Resources._14;
             ThermoInfo.Visible = true;
         }
 
         private void ThermoBtn_MouseLeave(object sender, EventArgs e)
         {
-            ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\13.png");
+            ThermoBtn.Image = Properties.Resources._13;
             ThermoInfo.Visible = false;
         }
 
         private void ThermoBtn_Click(object sender, EventArgs e)
         {
+            SoundPlayer.Play(Properties.Audios.Click);
+
             if (!isActiveTool)
             {
                 ThermoUsableA.Visible = true;
@@ -1832,9 +2059,9 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaBtn.Enabled = false;
                 AnemoBtn.Enabled = false;
 
-                BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\16D.png");
-                GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\18D.png");
-                AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\63D.png");
+                BaroBtn.Image = Properties.Resources._16D;
+                GasAnaBtn.Image = Properties.Resources._18D;
+                AnemoBtn.Image = Properties.Resources._63D;
 
                 ToolsBkg.Visible = false;
                 ThermoBtn.Visible = false;
@@ -1854,9 +2081,9 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaBtn.Enabled = true;
                 AnemoBtn.Enabled = true;
 
-                BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\16.png");
-                GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\18.png");
-                AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\63.png");
+                BaroBtn.Image = Properties.Resources._16;
+                GasAnaBtn.Image = Properties.Resources._18;
+                AnemoBtn.Image = Properties.Resources._63;
 
                 isActiveTool = false;
             }
@@ -1865,18 +2092,20 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         // barobtn
         private void BarometerBtn_MouseHover(object sender, EventArgs e)
         {
-            BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\17.png");
+            BaroBtn.Image = Properties.Resources._17;
             BaroInfo.Visible = true;
         }
 
         private void BarometerBtn_MouseLeave(object sender, EventArgs e)
         {
-            BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\16.png");
+            BaroBtn.Image = Properties.Resources._16;
             BaroInfo.Visible = false;
         }
 
         private void BaroBtn_Click(object sender, EventArgs e)
         {
+            SoundPlayer.Play(Properties.Audios.Click);
+
             if (!isActiveTool)
             {
                 BaroUsableA.Visible = true;
@@ -1891,9 +2120,9 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaBtn.Enabled = false;
                 AnemoBtn.Enabled = false;
 
-                ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\13D.png");
-                GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\18D.png");
-                AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\63D.png");
+                ThermoBtn.Image = Properties.Resources._13D;
+                GasAnaBtn.Image = Properties.Resources._18D;
+                AnemoBtn.Image = Properties.Resources._63D;
 
                 ToolsBkg.Visible = false;
                 ThermoBtn.Visible = false;
@@ -1913,9 +2142,9 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaBtn.Enabled = true;
                 AnemoBtn.Enabled = true;
 
-                ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\13.png");
-                GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\18.png");
-                AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\63.png");
+                ThermoBtn.Image = Properties.Resources._13;
+                GasAnaBtn.Image = Properties.Resources._18;
+                AnemoBtn.Image = Properties.Resources._63;
 
                 isActiveTool = false;
             }
@@ -1924,18 +2153,20 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         //gasanabtn
         private void GasAnaBtn_MouseHover(object sender, EventArgs e)
         {
-            GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\20.png");
+            GasAnaBtn.Image = Properties.Resources._20;
             GasAnaInfo.Visible = true;
         }
 
         private void GasAnaBtn_MouseLeave(object sender, EventArgs e)
         {
-            GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\21.png");
+            GasAnaBtn.Image = Properties.Resources._21;
             GasAnaInfo.Visible = false;
         }
 
         private void GasAnaBtn_Click(object sender, EventArgs e)
         {
+            SoundPlayer.Play(Properties.Audios.Click);
+
             if (!isActiveTool)
             {
                 GasAnaUsable.Visible = true;
@@ -1950,9 +2181,9 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 BaroBtn.Enabled = false;
                 AnemoBtn.Enabled = false;
 
-                ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\13D.png");
-                BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\16D.png");
-                AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\63D.png");
+                ThermoBtn.Image = Properties.Resources._13D;
+                BaroBtn.Image = Properties.Resources._16D;
+                AnemoBtn.Image = Properties.Resources._63D;
 
                 ToolsBkg.Visible = false;
                 ThermoBtn.Visible = false;
@@ -1971,9 +2202,9 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 BaroBtn.Enabled = true;
                 AnemoBtn.Enabled = true;
 
-                ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\13.png");
-                BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\16.png");
-                AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\63.png");
+                ThermoBtn.Image = Properties.Resources._13;
+                BaroBtn.Image = Properties.Resources._16;
+                AnemoBtn.Image = Properties.Resources._63;
 
                 isActiveTool = false;
             }
@@ -1983,18 +2214,20 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         //anemobtn
         private void AnemoBtn_MouseHover(object sender, EventArgs e)
         {
-            AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\64.png");
+            AnemoBtn.Image = Properties.Resources._64;
             AnemoInfo.Visible = true;
         }
 
         private void AnemoBtn_MouseLeave(object sender, EventArgs e)
         {
-            AnemoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\63.png");
+            AnemoBtn.Image = Properties.Resources._63;
             AnemoInfo.Visible = false;
         }
 
         private void AnemoBtn_Click(object sender, EventArgs e)
         {
+            SoundPlayer.Play(Properties.Audios.Click);
+
             if (!isActiveTool)
             {
                 AnemoUsable.Visible = true;
@@ -2009,9 +2242,9 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 BaroBtn.Enabled = false;
                 GasAnaBtn.Enabled = false;
 
-                ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\13D.png");
-                BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\16D.png");
-                GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\18D.png");
+                ThermoBtn.Image = Properties.Resources._13D;
+                BaroBtn.Image = Properties.Resources._16D;
+                GasAnaBtn.Image = Properties.Resources._18D;
 
                 ToolsBkg.Visible = false;
                 ThermoBtn.Visible = false;
@@ -2030,24 +2263,169 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 BaroBtn.Enabled = true;
                 GasAnaBtn.Enabled = true;
 
-                ThermoBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\13.png");
-                BaroBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\16.png");
-                GasAnaBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\18.png");
+                ThermoBtn.Image = Properties.Resources._13;
+                BaroBtn.Image = Properties.Resources._16;
+                GasAnaBtn.Image = Properties.Resources._18;
 
                 isActiveTool = false;
             }
         }
 
+        //MagicBalloon
+        private void MagicBalloonBtn_Click(object sender, EventArgs e)
+        {
+            SoundPlayer.Play(Properties.Audios.Click);
+
+            MagicBalloonSimBox.Visible = true;
+            MagicBalloonPresetbox.Visible = true;
+            MagicBalloonTextboxHeight.Visible = true;
+            MagicBalloonTextboxInner.Visible = true;
+            MagicBalloonTextboxSize.Visible = true;
+            MagicBalloonTextboxStretch.Visible = true;
+            HeightScroll.Visible = true;
+            InnerScroll.Visible = true;
+            SizeScroll.Visible = true;
+            StretchinessScroll.Visible = true;
+            SimExitBtn.Visible = true;
+            SimPlayBtn.Visible = true;
+
+            SimBox.Visible = false;
+            ToolsBtn.Visible = false;
+            ExitBtn.Visible = false;
+            SimBtn.Visible = false;
+            EverestLine.Visible = false;
+            OzoneLine.Visible = false;
+            TropoLine.Visible = false;
+            StratoLine.Visible = false;
+            MesoLine.Visible = false;
+            IonosInfo.Visible = false;
+            ThermoLine.Visible = false;
+            ExosLine.Visible = false;
+            CumulonimbusBtn.Visible = false;
+            AltocumulusBtn.Visible = false;
+            CumulusBtn.Visible = false;
+            StratusBtn.Visible = false;
+            CirrusBtn.Visible = false;
+            WeatherBalloonBtn.Visible = false;
+            MeteorBurnBtn.Visible = false;
+            AuroraBtn.Visible = false;
+            SateliteBtn.Visible = false;
+            ThermoUsableA.Visible = false;
+            ThermoUsableB.Visible = false;
+            BaroUsableA.Visible = false;
+            BaroUsableB.Visible = false;
+            GasAnaUsable.Visible = false;
+            AnemoUsable.Visible = false;
+            AltitudeInfo.Visible = false;
+
+        }
+
+        private void MagicBalloonBtn_MouseHover(object sender, EventArgs e)
+        {
+            MagicBalloonBtn.Image = Properties.Resources._77;
+            AnemoInfo.Visible = true;
+        }
+
+        private void MagicBalloonBtn_MouseLeave(object sender, EventArgs e)
+        {
+            MagicBalloonBtn.Image = Properties.Resources._76;
+            AnemoInfo.Visible = false;
+        }
+
+        //SimExitBtn
+        private void SimExitBtn_Click(object sender, EventArgs e)
+        {
+            SoundPlayer.Play(Properties.Audios.Click);
+
+            if (!isSimulating)
+            {
+                MagicBalloonSimBox.Visible = false;
+                MagicBalloonPresetbox.Visible = false;
+                MagicBalloonTextboxHeight.Visible = false;
+                MagicBalloonTextboxInner.Visible = false;
+                MagicBalloonTextboxSize.Visible = false;
+                MagicBalloonTextboxStretch.Visible = false;
+                HeightScroll.Visible = false;
+                InnerScroll.Visible = false;
+                SizeScroll.Visible = false;
+                StretchinessScroll.Visible = false;
+                SimExitBtn.Visible = false;
+                SimPlayBtn.Visible = false;
+
+                SimBox.Visible = true;
+                ToolsBtn.Visible = true;
+                ExitBtn.Visible = true;
+                SimBtn.Visible = true;
+                EverestLine.Visible = true;
+                OzoneLine.Visible = true;
+                TropoLine.Visible = true;
+                StratoLine.Visible = true;
+                MesoLine.Visible = true;
+                IonosInfo.Visible = true;
+                ThermoLine.Visible = true;
+                ExosLine.Visible = true;
+                CumulonimbusBtn.Visible = true;
+                AltocumulusBtn.Visible = true;
+                CumulusBtn.Visible = true;
+                StratusBtn.Visible = true;
+                CirrusBtn.Visible = true;
+                WeatherBalloonBtn.Visible = true;
+                MeteorBurnBtn.Visible = true;
+                AuroraBtn.Visible = true;
+                SateliteBtn.Visible = true;
+                AltitudeInfo.Visible = true;
+            }
+            else
+            {
+                runningAnimation.Stop();
+                SimImage.Location = new Point(1400, -9682);
+
+                AtmosphereImage.Visible = true;
+                SimBox.Visible = true;
+                MagicBalloonSimBox.Visible = true;
+                MagicBalloonPresetbox.Visible = true;
+                MagicBalloonTextboxHeight.Visible = true;
+                MagicBalloonTextboxInner.Visible = true;
+                MagicBalloonTextboxSize.Visible = true;
+                MagicBalloonTextboxStretch.Visible = true;
+                HeightScroll.Visible = true;
+                InnerScroll.Visible = true;
+                SizeScroll.Visible = true;
+                StretchinessScroll.Visible = true;
+
+                isSimulating = false;
+
+            }
+        }
+
+        private void SimExitBtn_MouseDown(object sender, MouseEventArgs e)
+        {
+            Size preshiftSize = SimExitBtn.Size;
+            Point preshiftLoc = SimExitBtn.Location;
+            SimExitBtn.Location = new Point(preshiftLoc.X, preshiftLoc.Y + 6);
+            SimExitBtn.Size = new Size(preshiftSize.Width, preshiftSize.Height - 6);
+            SimExitBtn.Image = Properties.Resources._27;
+        }
+
+        private void SimExitBtn_MouseUp(object sender, MouseEventArgs e)
+        {
+            Size preshiftSize = SimExitBtn.Size;
+            Point preshiftLoc = SimExitBtn.Location;
+            SimExitBtn.Location = new Point(preshiftLoc.X, preshiftLoc.Y - 6);
+            SimExitBtn.Size = new Size(preshiftSize.Width, preshiftSize.Height + 6);
+            SimExitBtn.Image = Properties.Resources._24;
+        }
+
         //satelitebtn
         private void SateliteBtn_MouseHover(object sender, EventArgs e)
         {
-            SateliteBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\60.png");
+            SateliteBtn.Image = Properties.Resources._60;
             SateliteInfo.Visible = true;
         }
 
         private void SateliteBtn_MouseLeave(object sender, EventArgs e)
         {
-            SateliteBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\59.png");
+            SateliteBtn.Image = Properties.Resources._59;
             SateliteInfo.Visible = false;
         }
 
@@ -2142,7 +2520,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaN.Text = "N: " + Convert.ToString(Nitrogen) + "%";
                 GasAnaH.Text = "H: " + Convert.ToString(Hydrogen) + "%";
 
-                label1.Text = "WORLD_POS: " + Convert.ToString(altitudeKm);
+                WORLD_POS.Text = "WORLD_POS: " + Convert.ToString(altitudeKm);
             }
             else if (mouseCoords.Y > 40)
             {
@@ -2182,13 +2560,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
                 GasAnaN.Text = "N: " + Convert.ToString(Nitrogen) + "%";
                 GasAnaH.Text = "H: " + Convert.ToString(Hydrogen) + "%";
 
-                label1.Text = "WORLD_POS: " + Convert.ToString(altitudeKm);
+                WORLD_POS.Text = "WORLD_POS: " + Convert.ToString(altitudeKm);
             }
             else
             {
                 AltitudeInfoText.Location = new Point(35, 20);
                 AltitudeInfoText.Text = "60 - 10,000KM";
-                label1.Text = "10000";
+                WORLD_POS.Text = "10000";
             }
 
             // offset in the AltitudeInfoText
@@ -2253,14 +2631,13 @@ namespace LAYERS_OF_THE_ATMOSPHERE
             Point preshiftLoc = ExitBtn.Location;
             ExitBtn.Location = new Point(preshiftLoc.X, preshiftLoc.Y - 6);
             ExitBtn.Size = new Size(preshiftSize.Width, preshiftSize.Height + 6);
-            ExitBtn.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\22.png");
+            ExitBtn.Image = Properties.Resources._22;
         }
 
         // everestline 
         private void EverestLine_MouseHover(object sender, EventArgs e)
         {
-            EverestLine.Image = null;
-            EverestLine.BackColor = Color.White;
+            EverestLine.Image = Properties.Resources._72;
             EverestInfo.Visible = true;
 
             AltitudeInfoText.Text = "8,849M";
@@ -2269,8 +2646,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void EverestLine_MouseLeave(object sender, EventArgs e)
         {
-            EverestLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
-            EverestLine.BackColor = Color.Transparent;
+            EverestLine.Image = Properties.Resources._73;
             EverestInfo.Visible = false;
         }
 
@@ -2287,7 +2663,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void ThermoLine_MouseLeave(object sender, EventArgs e)
         {
-            ThermoLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
+            ThermoLine.Image = Properties.Resources._11;
             ThermoLine.BackColor = Color.Transparent;
             ThermosInfo.Visible = false;
         }
@@ -2295,8 +2671,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         // exosline
         private void ExosLine_MouseHover(object sender, EventArgs e)
         {
-            ExosLine.Image = null;
-            ExosLine.BackColor = Color.White;
+            ExosLine.Image = Properties.Resources._75;
             ExosInfo.Visible = true;
 
             AltitudeInfoText.Location = new Point(35, 20);
@@ -2306,16 +2681,14 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void ExosLine_MouseLeave(object sender, EventArgs e)
         {
-            ExosLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
-            ExosLine.BackColor = Color.Transparent;
+            ExosLine.Image = Properties.Resources._74;
             ExosInfo.Visible = false;
         }
 
         // ionosline
         private void IonosLine_MouseHover(object sender, EventArgs e)
         {
-            IonosLine.Image = null;
-            IonosLine.BackColor = Color.White;
+            IonosLine.Image = Properties.Resources._72;
             IonosInfo.Visible = true;
 
             AltitudeInfoText.Text = "60,000M";
@@ -2324,8 +2697,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void IonosLine_MouseLeave(object sender, EventArgs e)
         {
-            IonosLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
-            IonosLine.BackColor = Color.Transparent;
+            IonosLine.Image = Properties.Resources._73;
             IonosInfo.Visible = false;
         }
 
@@ -2342,7 +2714,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void StratoLine_MouseLeave(object sender, EventArgs e)
         {
-            StratoLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
+            StratoLine.Image = Properties.Resources._11;
             StratoLine.BackColor = Color.Transparent;
             StratoInfo.Visible = false;
         }
@@ -2360,7 +2732,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void MesoLine_MouseLeave(object sender, EventArgs e)
         {
-            MesoLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
+            MesoLine.Image = Properties.Resources._11;
             MesoLine.BackColor = Color.Transparent;
             MesoInfo.Visible = false;
         }
@@ -2368,8 +2740,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         // ozoneline
         private void OzoneLine_MouseHover(object sender, EventArgs e)
         {
-            OzoneLine.Image = null;
-            OzoneLine.BackColor = Color.White;
+            OzoneLine.Image = Properties.Resources._72;
             OzoneInfo.Visible = true;
 
             AltitudeInfoText.Text = "10,000M";
@@ -2378,8 +2749,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void OzoneLine_MouseLeave(object sender, EventArgs e)
         {
-            OzoneLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
-            OzoneLine.BackColor = Color.Transparent;
+            OzoneLine.Image = Properties.Resources._73;
             OzoneInfo.Visible = false;
         }
 
@@ -2396,7 +2766,7 @@ namespace LAYERS_OF_THE_ATMOSPHERE
 
         private void TropoLine_MouseLeave(object sender, EventArgs e)
         {
-            TropoLine.Image = Image.FromFile(@"C:\Users\user\Downloads\LOTA\11.png");
+            TropoLine.Image = Properties.Resources._11;
             TropoLine.BackColor = Color.Transparent;
             TropoInfo.Visible = false;
         }
@@ -2414,6 +2784,146 @@ namespace LAYERS_OF_THE_ATMOSPHERE
         private void GasAnaAr_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void MagicBalloonPresetbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string preset = MagicBalloonPresetbox.SelectedItem.ToString();
+
+            if (preset == "Balloon")
+            {
+                MagicBalloonTextboxHeight.Text = "0";
+                MagicBalloonTextboxInner.Text = "75993.75";
+                MagicBalloonTextboxSize.Text = "0.29";
+                MagicBalloonTextboxStretch.Text = "30";
+
+            }
+            else if (preset == "Weather Balloon")
+            {
+                MagicBalloonTextboxHeight.Text = "0";
+                MagicBalloonTextboxInner.Text = "101525";
+                MagicBalloonTextboxSize.Text = "2.44";
+                MagicBalloonTextboxStretch.Text = "1.5";
+
+            }
+            else if (preset == "Custom")
+            {
+                MagicBalloonTextboxHeight.Text = "0";
+                MagicBalloonTextboxInner.Text = "0";
+                MagicBalloonTextboxSize.Text = "0";
+                MagicBalloonTextboxStretch.Text = "0";
+            }
+        }
+
+        private void HeightScroll_ValueChanged(object sender, EventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            MagicBalloonTextboxHeight.Text = Convert.ToString(Math.Round((HeightScroll.Value / 100d) * 999999d));
+        }
+
+        private void StretchinessScroll_Scroll(object sender, ScrollEventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            MagicBalloonTextboxStretch.Text = Convert.ToString(Math.Round((StretchinessScroll.Value / 100d) * 9999d, 2));
+        }
+
+        private void SizeScroll_Scroll(object sender, ScrollEventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            MagicBalloonTextboxSize.Text = Convert.ToString(Math.Round((SizeScroll.Value / 100d) * 999d, 2));
+        }
+
+        private void InnerScroll_Scroll(object sender, ScrollEventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            MagicBalloonTextboxInner.Text = Convert.ToString(Math.Round((InnerScroll.Value / 100d) * 9999d, 2));
+        }
+
+        private async void SimPlayBtn_Click(object sender, EventArgs e)
+        {
+            SimExitBtn.Visible = false;
+            isSimulating = true;
+            SimImage.Location = new Point(-10, -9682);
+            // 1400, -9682
+
+            AtmosphereImage.Visible = false;
+            SimBox.Visible = false;
+            MagicBalloonSimBox.Visible = false;
+            MagicBalloonPresetbox.Visible = false;
+            MagicBalloonTextboxHeight.Visible = false;
+            MagicBalloonTextboxInner.Visible = false;
+            MagicBalloonTextboxSize.Visible = false;
+            MagicBalloonTextboxStretch.Visible = false;
+            HeightScroll.Visible = false;
+            InnerScroll.Visible = false;
+            SizeScroll.Visible = false;
+            StretchinessScroll.Visible = false;
+
+            await Task.Delay(1000);
+            // 3
+            await Task.Delay(1000);
+            // 2
+            await Task.Delay(1000);
+            // 1
+            // await Task.Delay(1000);
+            // 0
+
+            SimExitBtn.BringToFront();
+            SimExitBtn.Visible = true;
+            runningAnimation = AnimationHelpers.AnimateMove(SimImage, -10, Convert.ToInt32((-9682 * (1 - (height / 999999d)))), -10, 0, 20000);
+        }
+
+        private void MagicBalloonTextboxHeight_TextChanged(object sender, EventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            if (MagicBalloonTextboxHeight.Text.Length == 0)
+            {
+
+            }
+            else
+            {
+                height = Convert.ToInt32(MagicBalloonTextboxHeight.Text);
+            }
+        }
+
+        private void MagicBalloonTextboxStretch_TextChanged(object sender, EventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            if (MagicBalloonTextboxStretch.Text.Length == 0)
+            {
+
+            }
+            else
+            {
+                stretch = Convert.ToDouble(MagicBalloonTextboxStretch.Text);
+            }
+
+        }
+
+        private void MagicBalloonTextboxSize_TextChanged(object sender, EventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            if (MagicBalloonTextboxSize.Text.Length == 0)
+            {
+
+            }
+            else 
+            {
+                size = Convert.ToDouble(MagicBalloonTextboxSize.Text);
+            }
+        }
+
+        private void MagicBalloonTextboxInner_TextChanged(object sender, EventArgs e)
+        {
+            MagicBalloonPresetbox.SelectedIndex = 2;
+            if (MagicBalloonTextboxInner.Text.Length == 0)
+            {
+
+            }
+            else
+            {
+                size = Convert.ToDouble(MagicBalloonTextboxInner.Text);
+            }
         }
     }
 }

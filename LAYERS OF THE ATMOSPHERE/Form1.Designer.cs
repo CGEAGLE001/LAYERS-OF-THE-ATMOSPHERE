@@ -86,7 +86,7 @@
             AltitudeInfoText = new Label();
             ThermoInfoText = new Label();
             BaroInfoText = new Label();
-            label1 = new Label();
+            WORLD_POS = new Label();
             AnemoInfoText = new Label();
             GasAnaN2 = new Label();
             GasAnaO2 = new Label();
@@ -95,6 +95,23 @@
             GasAnaHe = new Label();
             GasAnaN = new Label();
             GasAnaH = new Label();
+            MagicBalloonSimBox = new PictureBox();
+            HeightScroll = new HScrollBar();
+            MagicBalloonTextboxHeight = new TextBox();
+            MagicBalloonTextboxStretch = new TextBox();
+            MagicBalloonPresetbox = new ComboBox();
+            StretchinessScroll = new HScrollBar();
+            MagicBalloonTextboxSize = new TextBox();
+            MagicBalloonTextboxInner = new TextBox();
+            SizeScroll = new HScrollBar();
+            InnerScroll = new HScrollBar();
+            SimBtn = new PictureBox();
+            SimBox = new PictureBox();
+            MagicBalloonBtn = new PictureBox();
+            FloatingTableBtn = new PictureBox();
+            SimExitBtn = new PictureBox();
+            SimImage = new PictureBox();
+            SimPlayBtn = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)AtmosphereImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CumulonimbusBtn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CumulusBtn).BeginInit();
@@ -141,11 +158,19 @@
             ((System.ComponentModel.ISupportInitialize)GasAnaUsable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AnemoUsable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AltitudeInfo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MagicBalloonSimBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MagicBalloonBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)FloatingTableBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimExitBtn).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimImage).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SimPlayBtn).BeginInit();
             SuspendLayout();
             // 
             // AtmosphereImage
             // 
-            AtmosphereImage.Image = (Image)resources.GetObject("AtmosphereImage.Image");
+            AtmosphereImage.Image = Properties.Resources._10;
             AtmosphereImage.Location = new Point(-10, -3154);
             AtmosphereImage.Margin = new Padding(4, 2, 4, 2);
             AtmosphereImage.Name = "AtmosphereImage";
@@ -308,6 +333,7 @@
             // ThermoBtn
             // 
             ThermoBtn.BackColor = Color.Transparent;
+            ThermoBtn.Cursor = Cursors.Hand;
             ThermoBtn.Image = (Image)resources.GetObject("ThermoBtn.Image");
             ThermoBtn.Location = new Point(40, 41);
             ThermoBtn.Margin = new Padding(4, 2, 4, 2);
@@ -322,6 +348,7 @@
             // BaroBtn
             // 
             BaroBtn.BackColor = Color.Transparent;
+            BaroBtn.Cursor = Cursors.Hand;
             BaroBtn.Image = (Image)resources.GetObject("BaroBtn.Image");
             BaroBtn.Location = new Point(151, 40);
             BaroBtn.Margin = new Padding(4, 2, 4, 2);
@@ -336,6 +363,7 @@
             // GasAnaBtn
             // 
             GasAnaBtn.BackColor = Color.Transparent;
+            GasAnaBtn.Cursor = Cursors.Hand;
             GasAnaBtn.Image = (Image)resources.GetObject("GasAnaBtn.Image");
             GasAnaBtn.Location = new Point(255, 40);
             GasAnaBtn.Margin = new Padding(4, 2, 4, 2);
@@ -471,7 +499,7 @@
             // ErrorBoxScreen
             // 
             ErrorBoxScreen.Image = (Image)resources.GetObject("ErrorBoxScreen.Image");
-            ErrorBoxScreen.Location = new Point(419, 150);
+            ErrorBoxScreen.Location = new Point(416, 166);
             ErrorBoxScreen.Margin = new Padding(4, 2, 4, 2);
             ErrorBoxScreen.Name = "ErrorBoxScreen";
             ErrorBoxScreen.Size = new Size(450, 300);
@@ -491,7 +519,7 @@
             // EverestLine
             // 
             EverestLine.BackColor = Color.Transparent;
-            EverestLine.BackgroundImage = (Image)resources.GetObject("EverestLine.BackgroundImage");
+            EverestLine.BackgroundImage = Properties.Resources._73;
             EverestLine.Location = new Point(-8, 3732);
             EverestLine.Name = "EverestLine";
             EverestLine.Size = new Size(1280, 6);
@@ -503,6 +531,7 @@
             // AnemoBtn
             // 
             AnemoBtn.BackColor = Color.Transparent;
+            AnemoBtn.Cursor = Cursors.Hand;
             AnemoBtn.Image = (Image)resources.GetObject("AnemoBtn.Image");
             AnemoBtn.Location = new Point(371, 41);
             AnemoBtn.Margin = new Padding(4, 2, 4, 2);
@@ -624,7 +653,7 @@
             // OzoneLine
             // 
             OzoneLine.BackColor = Color.Transparent;
-            OzoneLine.Image = (Image)resources.GetObject("OzoneLine.Image");
+            OzoneLine.Image = Properties.Resources._73;
             OzoneLine.Location = new Point(-8, 3722);
             OzoneLine.Name = "OzoneLine";
             OzoneLine.Size = new Size(1280, 6);
@@ -636,7 +665,7 @@
             // IonosLine
             // 
             IonosLine.BackColor = Color.Transparent;
-            IonosLine.Image = (Image)resources.GetObject("IonosLine.Image");
+            IonosLine.Image = Properties.Resources._73;
             IonosLine.Location = new Point(-8, 3143);
             IonosLine.Name = "IonosLine";
             IonosLine.Size = new Size(1280, 6);
@@ -824,17 +853,17 @@
             BaroInfoText.TabIndex = 65;
             BaroInfoText.Text = "0 mb";
             // 
-            // label1
+            // WORLD_POS
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Red;
-            label1.Location = new Point(635, 70);
-            label1.Name = "label1";
-            label1.Size = new Size(49, 15);
-            label1.TabIndex = 66;
-            label1.Text = "label1";
-            label1.Click += label1_Click;
+            WORLD_POS.AutoSize = true;
+            WORLD_POS.Font = new Font("IBM Plex Mono", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            WORLD_POS.ForeColor = Color.Red;
+            WORLD_POS.Location = new Point(592, 72);
+            WORLD_POS.Name = "WORLD_POS";
+            WORLD_POS.Size = new Size(70, 15);
+            WORLD_POS.TabIndex = 66;
+            WORLD_POS.Text = "WRLD_SPCL";
+            WORLD_POS.Click += label1_Click;
             // 
             // AnemoInfoText
             // 
@@ -868,6 +897,7 @@
             GasAnaO2.Size = new Size(49, 15);
             GasAnaO2.TabIndex = 71;
             GasAnaO2.Text = "label3";
+            GasAnaO2.TextAlign = ContentAlignment.TopCenter;
             GasAnaO2.Click += GasAnaO2_Click;
             // 
             // GasAnaO
@@ -921,13 +951,223 @@
             GasAnaH.TabIndex = 76;
             GasAnaH.Text = "label5";
             // 
+            // MagicBalloonSimBox
+            // 
+            MagicBalloonSimBox.Image = (Image)resources.GetObject("MagicBalloonSimBox.Image");
+            MagicBalloonSimBox.Location = new Point(395, 158);
+            MagicBalloonSimBox.Margin = new Padding(4, 2, 4, 2);
+            MagicBalloonSimBox.Name = "MagicBalloonSimBox";
+            MagicBalloonSimBox.Size = new Size(500, 350);
+            MagicBalloonSimBox.TabIndex = 77;
+            MagicBalloonSimBox.TabStop = false;
+            // 
+            // HeightScroll
+            // 
+            HeightScroll.LargeChange = 1;
+            HeightScroll.Location = new Point(443, 373);
+            HeightScroll.Name = "HeightScroll";
+            HeightScroll.Size = new Size(182, 20);
+            HeightScroll.TabIndex = 81;
+            HeightScroll.ValueChanged += HeightScroll_ValueChanged;
+            // 
+            // MagicBalloonTextboxHeight
+            // 
+            MagicBalloonTextboxHeight.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            MagicBalloonTextboxHeight.Location = new Point(443, 346);
+            MagicBalloonTextboxHeight.MaxLength = 6;
+            MagicBalloonTextboxHeight.Name = "MagicBalloonTextboxHeight";
+            MagicBalloonTextboxHeight.PlaceholderText = "Altitude (m)";
+            MagicBalloonTextboxHeight.Size = new Size(182, 24);
+            MagicBalloonTextboxHeight.TabIndex = 82;
+            MagicBalloonTextboxHeight.TextAlign = HorizontalAlignment.Center;
+            MagicBalloonTextboxHeight.TextChanged += MagicBalloonTextboxHeight_TextChanged;
+            // 
+            // MagicBalloonTextboxStretch
+            // 
+            MagicBalloonTextboxStretch.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            MagicBalloonTextboxStretch.Location = new Point(669, 346);
+            MagicBalloonTextboxStretch.MaxLength = 4;
+            MagicBalloonTextboxStretch.Name = "MagicBalloonTextboxStretch";
+            MagicBalloonTextboxStretch.PlaceholderText = "Tensile Strength";
+            MagicBalloonTextboxStretch.Size = new Size(182, 24);
+            MagicBalloonTextboxStretch.TabIndex = 84;
+            MagicBalloonTextboxStretch.TextAlign = HorizontalAlignment.Center;
+            MagicBalloonTextboxStretch.TextChanged += MagicBalloonTextboxStretch_TextChanged;
+            // 
+            // MagicBalloonPresetbox
+            // 
+            MagicBalloonPresetbox.BackColor = Color.White;
+            MagicBalloonPresetbox.DropDownStyle = ComboBoxStyle.DropDownList;
+            MagicBalloonPresetbox.FormattingEnabled = true;
+            MagicBalloonPresetbox.Items.AddRange(new object[] { "Balloon", "Weather Balloon", "Custom" });
+            MagicBalloonPresetbox.Location = new Point(575, 263);
+            MagicBalloonPresetbox.Name = "MagicBalloonPresetbox";
+            MagicBalloonPresetbox.Size = new Size(145, 23);
+            MagicBalloonPresetbox.TabIndex = 85;
+            MagicBalloonPresetbox.SelectedIndexChanged += MagicBalloonPresetbox_SelectedIndexChanged;
+            // 
+            // StretchinessScroll
+            // 
+            StretchinessScroll.LargeChange = 1;
+            StretchinessScroll.Location = new Point(669, 373);
+            StretchinessScroll.Name = "StretchinessScroll";
+            StretchinessScroll.Size = new Size(182, 20);
+            StretchinessScroll.TabIndex = 86;
+            StretchinessScroll.Scroll += StretchinessScroll_Scroll;
+            // 
+            // MagicBalloonTextboxSize
+            // 
+            MagicBalloonTextboxSize.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            MagicBalloonTextboxSize.Location = new Point(443, 431);
+            MagicBalloonTextboxSize.MaxLength = 3;
+            MagicBalloonTextboxSize.Name = "MagicBalloonTextboxSize";
+            MagicBalloonTextboxSize.PlaceholderText = "Diameter (m)";
+            MagicBalloonTextboxSize.Size = new Size(182, 24);
+            MagicBalloonTextboxSize.TabIndex = 89;
+            MagicBalloonTextboxSize.TextAlign = HorizontalAlignment.Center;
+            MagicBalloonTextboxSize.TextChanged += MagicBalloonTextboxSize_TextChanged;
+            // 
+            // MagicBalloonTextboxInner
+            // 
+            MagicBalloonTextboxInner.Font = new Font("IBM Plex Mono Medium", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            MagicBalloonTextboxInner.Location = new Point(669, 431);
+            MagicBalloonTextboxInner.MaxLength = 4;
+            MagicBalloonTextboxInner.Name = "MagicBalloonTextboxInner";
+            MagicBalloonTextboxInner.PlaceholderText = "Inner Pressure (Pa)";
+            MagicBalloonTextboxInner.Size = new Size(182, 24);
+            MagicBalloonTextboxInner.TabIndex = 91;
+            MagicBalloonTextboxInner.TextAlign = HorizontalAlignment.Center;
+            MagicBalloonTextboxInner.TextChanged += MagicBalloonTextboxInner_TextChanged;
+            // 
+            // SizeScroll
+            // 
+            SizeScroll.LargeChange = 1;
+            SizeScroll.Location = new Point(443, 458);
+            SizeScroll.Name = "SizeScroll";
+            SizeScroll.Size = new Size(182, 20);
+            SizeScroll.TabIndex = 92;
+            SizeScroll.Scroll += SizeScroll_Scroll;
+            // 
+            // InnerScroll
+            // 
+            InnerScroll.LargeChange = 1;
+            InnerScroll.Location = new Point(669, 458);
+            InnerScroll.Name = "InnerScroll";
+            InnerScroll.Size = new Size(182, 20);
+            InnerScroll.TabIndex = 93;
+            InnerScroll.Scroll += InnerScroll_Scroll;
+            // 
+            // SimBtn
+            // 
+            SimBtn.BackColor = Color.Transparent;
+            SimBtn.Image = (Image)resources.GetObject("SimBtn.Image");
+            SimBtn.Location = new Point(100, 11);
+            SimBtn.Margin = new Padding(4, 2, 4, 2);
+            SimBtn.Name = "SimBtn";
+            SimBtn.Size = new Size(75, 75);
+            SimBtn.TabIndex = 94;
+            SimBtn.TabStop = false;
+            SimBtn.Click += SimBtn_Click;
+            SimBtn.MouseDown += SimBtn_MouseDown;
+            SimBtn.MouseUp += SimBtn_MouseUp;
+            // 
+            // SimBox
+            // 
+            SimBox.BackColor = Color.Transparent;
+            SimBox.Image = (Image)resources.GetObject("SimBox.Image");
+            SimBox.Location = new Point(100, 94);
+            SimBox.Margin = new Padding(4, 2, 4, 2);
+            SimBox.Name = "SimBox";
+            SimBox.Size = new Size(279, 171);
+            SimBox.TabIndex = 95;
+            SimBox.TabStop = false;
+            // 
+            // MagicBalloonBtn
+            // 
+            MagicBalloonBtn.BackColor = Color.Transparent;
+            MagicBalloonBtn.Cursor = Cursors.Hand;
+            MagicBalloonBtn.Image = (Image)resources.GetObject("MagicBalloonBtn.Image");
+            MagicBalloonBtn.Location = new Point(40, 38);
+            MagicBalloonBtn.Margin = new Padding(4, 2, 4, 2);
+            MagicBalloonBtn.Name = "MagicBalloonBtn";
+            MagicBalloonBtn.Size = new Size(90, 90);
+            MagicBalloonBtn.TabIndex = 96;
+            MagicBalloonBtn.TabStop = false;
+            MagicBalloonBtn.Click += MagicBalloonBtn_Click;
+            MagicBalloonBtn.MouseLeave += MagicBalloonBtn_MouseLeave;
+            MagicBalloonBtn.MouseHover += MagicBalloonBtn_MouseHover;
+            // 
+            // FloatingTableBtn
+            // 
+            FloatingTableBtn.BackColor = Color.Transparent;
+            FloatingTableBtn.Cursor = Cursors.Hand;
+            FloatingTableBtn.Image = (Image)resources.GetObject("FloatingTableBtn.Image");
+            FloatingTableBtn.Location = new Point(151, 42);
+            FloatingTableBtn.Margin = new Padding(4, 2, 4, 2);
+            FloatingTableBtn.Name = "FloatingTableBtn";
+            FloatingTableBtn.Size = new Size(90, 90);
+            FloatingTableBtn.TabIndex = 97;
+            FloatingTableBtn.TabStop = false;
+            // 
+            // SimExitBtn
+            // 
+            SimExitBtn.BackColor = Color.Transparent;
+            SimExitBtn.Image = (Image)resources.GetObject("SimExitBtn.Image");
+            SimExitBtn.Location = new Point(1176, 10);
+            SimExitBtn.Margin = new Padding(4, 2, 4, 2);
+            SimExitBtn.Name = "SimExitBtn";
+            SimExitBtn.Size = new Size(75, 75);
+            SimExitBtn.TabIndex = 98;
+            SimExitBtn.TabStop = false;
+            SimExitBtn.Click += SimExitBtn_Click;
+            SimExitBtn.MouseDown += SimExitBtn_MouseDown;
+            SimExitBtn.MouseUp += SimExitBtn_MouseUp;
+            // 
+            // SimImage
+            // 
+            SimImage.Image = (Image)resources.GetObject("SimImage.Image");
+            SimImage.Location = new Point(1400, -9682);
+            SimImage.Margin = new Padding(4, 2, 4, 2);
+            SimImage.Name = "SimImage";
+            SimImage.Size = new Size(1280, 10368);
+            SimImage.TabIndex = 99;
+            SimImage.TabStop = false;
+            // 
+            // SimPlayBtn
+            // 
+            SimPlayBtn.BackColor = Color.Transparent;
+            SimPlayBtn.Image = (Image)resources.GetObject("SimPlayBtn.Image");
+            SimPlayBtn.Location = new Point(595, 3690);
+            SimPlayBtn.Name = "SimPlayBtn";
+            SimPlayBtn.Size = new Size(120, 120);
+            SimPlayBtn.TabIndex = 100;
+            SimPlayBtn.TabStop = false;
+            SimPlayBtn.Click += SimPlayBtn_Click;
+            // 
             // Scimulation
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Black;
+            BackColor = Color.DarkGray;
             CausesValidation = false;
             ClientSize = new Size(1264, 681);
+            Controls.Add(SimPlayBtn);
+            Controls.Add(SimImage);
+            Controls.Add(SimExitBtn);
+            Controls.Add(FloatingTableBtn);
+            Controls.Add(MagicBalloonBtn);
+            Controls.Add(SimBox);
+            Controls.Add(SimBtn);
+            Controls.Add(InnerScroll);
+            Controls.Add(SizeScroll);
+            Controls.Add(MagicBalloonTextboxInner);
+            Controls.Add(MagicBalloonTextboxSize);
+            Controls.Add(StretchinessScroll);
+            Controls.Add(MagicBalloonPresetbox);
+            Controls.Add(MagicBalloonTextboxStretch);
+            Controls.Add(MagicBalloonTextboxHeight);
+            Controls.Add(HeightScroll);
+            Controls.Add(MagicBalloonSimBox);
             Controls.Add(GasAnaH);
             Controls.Add(GasAnaN);
             Controls.Add(GasAnaHe);
@@ -936,7 +1176,7 @@
             Controls.Add(GasAnaO2);
             Controls.Add(GasAnaN2);
             Controls.Add(AnemoInfoText);
-            Controls.Add(label1);
+            Controls.Add(WORLD_POS);
             Controls.Add(BaroInfoText);
             Controls.Add(ThermoInfoText);
             Controls.Add(AltitudeInfoText);
@@ -1048,6 +1288,14 @@
             ((System.ComponentModel.ISupportInitialize)GasAnaUsable).EndInit();
             ((System.ComponentModel.ISupportInitialize)AnemoUsable).EndInit();
             ((System.ComponentModel.ISupportInitialize)AltitudeInfo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MagicBalloonSimBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MagicBalloonBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)FloatingTableBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimExitBtn).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimImage).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SimPlayBtn).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1111,7 +1359,7 @@
         private Label AltitudeInfoText;
         private Label ThermoInfoText;
         private Label BaroInfoText;
-        private Label label1;
+        private Label WORLD_POS;
         private Label AnemoInfoText;
         private Label GasAnaN2;
         private Label GasAnaO2;
@@ -1120,5 +1368,22 @@
         private Label GasAnaHe;
         private Label GasAnaN;
         private Label GasAnaH;
+        private PictureBox MagicBalloonSimBox;
+        private HScrollBar HeightScroll;
+        private TextBox MagicBalloonTextboxHeight;
+        private TextBox MagicBalloonTextboxStretch;
+        private ComboBox MagicBalloonPresetbox;
+        private HScrollBar StretchinessScroll;
+        private TextBox MagicBalloonTextboxSize;
+        private TextBox MagicBalloonTextboxInner;
+        private HScrollBar SizeScroll;
+        private HScrollBar InnerScroll;
+        private PictureBox SimBtn;
+        private PictureBox SimBox;
+        private PictureBox MagicBalloonBtn;
+        private PictureBox FloatingTableBtn;
+        private PictureBox SimExitBtn;
+        private PictureBox SimImage;
+        private PictureBox SimPlayBtn;
     }
 }
